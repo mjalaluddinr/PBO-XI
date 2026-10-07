@@ -32,34 +32,86 @@ namespace perpustakaan
                 pLogo.Size = new Size(83, 77);
 
                 label1.Font = new Font("Arial", 21.75F, FontStyle.Bold);
-                label1.Location = new Point((this.ClientSize.Width - label1.Width) / 2, 22);
+                label1.Location = new Point(
+                    (this.ClientSize.Width - label1.Width) / 2,
+                    22
+                );
 
                 panel1.Width = 220;
                 panel1.Padding = new Padding(25, 23, 25, 23);
 
                 lLine.Location = new Point(220, 87);
-                lLine.Size = new Size(this.ClientSize.Width - 220, 48);
-
-                label2.Font = new Font("Calibri", 14.25F, FontStyle.Bold);
-                label2.Location = new Point(230, 99);
-
-                label4.Font = new Font("Calibri", 14.25F, FontStyle.Bold);
-                label4.Location = new Point(label2.Right + 8, 99);
-
-                panel2.Location = new Point(230, 145);
-                panel2.Size = new Size(
-                    this.ClientSize.Width - 250,
-                    this.ClientSize.Height - 165
+                lLine.Size = new Size(
+                    this.ClientSize.Width - 220,
+                    48
                 );
 
-                button1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
-                button8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold);
+                label2.Font = new Font(
+                    "Calibri",
+                    14.25F,
+                    FontStyle.Bold
+                );
+
+                label2.Location = new Point(230, 99);
+
+                label4.Font = new Font(
+                    "Calibri",
+                    14.25F,
+                    FontStyle.Bold
+                );
+
+                label4.Location = new Point(
+                    label2.Right + 8,
+                    99
+                );
+
+                button1.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button2.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button3.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button4.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button5.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button6.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button7.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
+
+                button8.Font = new Font(
+                    "Microsoft Sans Serif",
+                    12F,
+                    FontStyle.Bold
+                );
 
                 button1.Margin = new Padding(13, 15, 13, 15);
                 button2.Margin = new Padding(13, 15, 13, 15);
@@ -77,35 +129,92 @@ namespace perpustakaan
                 pLogo.Location = new Point(10, 5);
                 pLogo.Size = new Size(55, 55);
 
-                label1.Font = new Font("Arial", 18F, FontStyle.Bold);
-                label1.Location = new Point((this.ClientSize.Width - label1.Width) / 2, 18);
+                label1.Font = new Font(
+                    "Arial",
+                    18F,
+                    FontStyle.Bold
+                );
+
+                label1.Location = new Point(
+                    (this.ClientSize.Width - label1.Width) / 2,
+                    18
+                );
 
                 panel1.Width = 130;
                 panel1.Padding = new Padding(10);
 
                 lLine.Location = new Point(130, 65);
-                lLine.Size = new Size(this.ClientSize.Width - 130, 40);
-
-                label2.Font = new Font("Calibri", 10F, FontStyle.Bold);
-                label2.Location = new Point(140, 76);
-
-                label4.Font = new Font("Calibri", 10F, FontStyle.Bold);
-                label4.Location = new Point(label2.Right + 5, 76);
-
-                panel2.Location = new Point(140, 115);
-                panel2.Size = new Size(
-                    this.ClientSize.Width - 160,
-                    this.ClientSize.Height - 135
+                lLine.Size = new Size(
+                    this.ClientSize.Width - 130,
+                    40
                 );
 
-                button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button3.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button6.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button7.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-                button8.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                label2.Font = new Font(
+                    "Calibri",
+                    10F,
+                    FontStyle.Bold
+                );
+
+                label2.Location = new Point(140, 76);
+
+                label4.Font = new Font(
+                    "Calibri",
+                    10F,
+                    FontStyle.Bold
+                );
+
+                label4.Location = new Point(
+                    label2.Right + 5,
+                    76
+                );
+
+                button1.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button2.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button3.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button4.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button5.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button6.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button7.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
+
+                button8.Font = new Font(
+                    "Microsoft Sans Serif",
+                    9F,
+                    FontStyle.Bold
+                );
 
                 button1.Margin = new Padding(5, 6, 5, 6);
                 button2.Margin = new Padding(5, 6, 5, 6);
@@ -199,10 +308,6 @@ namespace perpustakaan
         }
 
         private void lLine_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
         {
         }
     }
