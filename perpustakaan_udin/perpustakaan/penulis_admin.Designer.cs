@@ -162,12 +162,16 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 14F, System.Drawing.FontStyle.Bold);
+            this.label3.Font = new System.Drawing.Font(
+                "Arial",
+                18F,
+                System.Drawing.FontStyle.Bold
+            );
             this.label3.Location = new System.Drawing.Point(340, 115);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 22);
+            this.label3.Size = new System.Drawing.Size(109, 30);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Penulis";
+            this.label3.Text = "Penerbit";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label5

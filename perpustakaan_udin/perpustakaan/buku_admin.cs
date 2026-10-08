@@ -735,22 +735,26 @@ namespace perpustakaan
 
                 int contentX = contentLeft;
 
+                label3.Font = new Font(
+      "Arial",
+      18F,
+      FontStyle.Bold
+  );
+
                 label3.Location = new Point(
-                    contentX +
-                    (
+                    220 + (
                         (
-                            panel2Width +
-                            gap +
-                            panel4Width
-                        ) -
-                        label3.Width
-                    ) / 2,
-                    122
+                            this.ClientSize.Width -
+                            220 -
+                            label3.Width
+                        ) / 2
+                    ),
+                    175
                 );
 
                 panel2.Location = new Point(
                     contentX,
-                    145
+                    210
                 );
 
                 panel2.Size = new Size(
@@ -760,7 +764,7 @@ namespace perpustakaan
 
                 panel4.Location = new Point(
                     contentX + panel2Width + gap,
-                    145
+                    210
                 );
 
                 panel4.Size = new Size(
@@ -811,10 +815,16 @@ namespace perpustakaan
                     panel4.Width - 102;
 
                 panel3.Location =
-                    new Point(contentX, 288);
+                    new Point(
+                        contentX,
+                        355
+                    );
 
                 panel3.Size =
-                    new Size(contentWidth, 45);
+                    new Size(
+                        contentWidth,
+                        45
+                    );
 
                 bInsert.Location =
                     new Point(
@@ -835,21 +845,21 @@ namespace perpustakaan
                     );
 
                 label8.Location =
-                    new Point(contentX, 365);
+                    new Point(contentX, 420);
 
                 cariBuku.Location =
                     new Point(
                         label8.Right + 8,
-                        363
+                        417
                     );
 
                 dataGridView1.Location =
-                    new Point(contentX, 395);
+                    new Point(contentX, 450);
 
                 dataGridView1.Size =
                     new Size(
                         contentWidth,
-                        this.ClientSize.Height - 415
+                        this.ClientSize.Height - 485
                     );
             }
             else
@@ -1078,7 +1088,9 @@ namespace perpustakaan
 
         private void button8_Click_1(object sender, EventArgs e)
         {
-            this.Close();
+            Login panggil = new Login();
+            panggil.Show();
+            this.Hide();
         }
 
         private void label1_Click(object sender, EventArgs e)

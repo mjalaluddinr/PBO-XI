@@ -591,7 +591,9 @@ namespace perpustakaan
 
         private void button8_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Login panggil = new Login();
+            panggil.Show();
+            this.Hide();
         }
 
         private void label3_Click(object sender, EventArgs e)
