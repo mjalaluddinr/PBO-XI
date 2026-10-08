@@ -63,7 +63,7 @@
             // 
             // bInsert
             // 
-            this.bInsert.BackColor = System.Drawing.SystemColors.Control;
+            this.bInsert.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.bInsert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bInsert.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.bInsert.Location = new System.Drawing.Point(5, 7);
@@ -76,7 +76,7 @@
             // 
             // bEdit
             // 
-            this.bEdit.BackColor = System.Drawing.SystemColors.Control;
+            this.bEdit.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.bEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.bEdit.Location = new System.Drawing.Point(67, 7);
@@ -89,7 +89,7 @@
             // 
             // bDelete
             // 
-            this.bDelete.BackColor = System.Drawing.SystemColors.Control;
+            this.bDelete.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.bDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.bDelete.Location = new System.Drawing.Point(129, 7);
@@ -102,7 +102,7 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(233, 223, 255);
             this.panel3.Controls.Add(this.bDelete);
             this.panel3.Controls.Add(this.bEdit);
             this.panel3.Controls.Add(this.bInsert);
@@ -114,18 +114,18 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(124, 90, 194);
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Location = new System.Drawing.Point(350, 170);
@@ -239,7 +239,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(233, 223, 255);
             this.panel2.Controls.Add(this.email);
             this.panel2.Controls.Add(this.noTelp);
             this.panel2.Controls.Add(this.alamat);
@@ -277,7 +277,7 @@
             // 
             // pHeader
             // 
-            this.pHeader.BackColor = System.Drawing.Color.Blue;
+            this.pHeader.BackColor = System.Drawing.Color.FromArgb(108, 74, 182);
             this.pHeader.Controls.Add(this.pLogo);
             this.pHeader.Controls.Add(this.label1);
             this.pHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -289,7 +289,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(233, 223, 255);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 65);
@@ -328,7 +328,7 @@
             // 
             // button8
             // 
-            this.button8.BackColor = System.Drawing.SystemColors.Control;
+            this.button8.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -343,7 +343,7 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
+            this.button1.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -358,7 +358,7 @@
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.Control;
+            this.button2.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -373,7 +373,7 @@
             // 
             // button7
             // 
-            this.button7.BackColor = System.Drawing.SystemColors.Control;
+            this.button7.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -388,7 +388,7 @@
             // 
             // button5
             // 
-            this.button5.BackColor = System.Drawing.SystemColors.Control;
+            this.button5.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -403,7 +403,7 @@
             // 
             // button6
             // 
-            this.button6.BackColor = System.Drawing.SystemColors.Control;
+            this.button6.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -418,10 +418,11 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.Control;
+            this.button3.BackColor = System.Drawing.Color.FromArgb(124, 90, 194);
             this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Location = new System.Drawing.Point(5, 166);
             this.button3.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.button3.Name = "button3";
@@ -433,7 +434,7 @@
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.Control;
+            this.button4.BackColor = System.Drawing.Color.FromArgb(243, 238, 250);
             this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
@@ -449,7 +450,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.DodgerBlue;
+            this.label2.BackColor = System.Drawing.Color.FromArgb(142, 108, 207);
             this.label2.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             this.label2.Location = new System.Drawing.Point(140, 76);
             this.label2.Name = "label2";
@@ -460,7 +461,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.DodgerBlue;
+            this.label4.BackColor = System.Drawing.Color.FromArgb(142, 108, 207);
             this.label4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold);
             this.label4.Location = new System.Drawing.Point(285, 76);
             this.label4.Name = "label4";
@@ -470,7 +471,7 @@
             // 
             // lLine
             // 
-            this.lLine.BackColor = System.Drawing.Color.DodgerBlue;
+            this.lLine.BackColor = System.Drawing.Color.FromArgb(142, 108, 207);
             this.lLine.Location = new System.Drawing.Point(130, 65);
             this.lLine.Name = "lLine";
             this.lLine.Size = new System.Drawing.Size(486, 40);
@@ -480,7 +481,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.BackColor = System.Drawing.Color.FromArgb(247, 244, 252);
             this.ClientSize = new System.Drawing.Size(616, 405);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
