@@ -709,11 +709,8 @@ namespace perpustakaan
 
                 int gap = 16;
 
-                int panel2Width =
-                    (int)(contentWidth * 0.36);
-
-                int panel4Width =
-                    contentWidth - panel2Width - gap;
+                int panel2Width = (int)(contentWidth * 0.36);
+                int panel4Width = contentWidth - panel2Width - gap;
 
                 if (panel2Width < 300)
                     panel2Width = 300;
@@ -721,287 +718,206 @@ namespace perpustakaan
                 if (panel4Width < 350)
                     panel4Width = 350;
 
-                int totalWidth =
-                    panel2Width + gap + panel4Width;
+                int totalWidth = panel2Width + gap + panel4Width;
 
                 if (totalWidth > contentWidth)
                 {
-                    panel2Width =
-                        (int)(contentWidth * 0.35);
-
-                    panel4Width =
-                        contentWidth - panel2Width - gap;
+                    panel2Width = (int)(contentWidth * 0.35);
+                    panel4Width = contentWidth - panel2Width - gap;
                 }
 
                 int contentX = contentLeft;
 
                 label3.Font = new Font(
-      "Arial",
-      18F,
-      FontStyle.Bold
-  );
+                    "Arial",
+                    18F,
+                    FontStyle.Bold
+                );
 
                 label3.Location = new Point(
-                    220 + (
-                        (
-                            this.ClientSize.Width -
-                            220 -
-                            label3.Width
-                        ) / 2
-                    ),
+                    220 + ((this.ClientSize.Width - 220 - label3.Width) / 2),
                     175
                 );
 
-                panel2.Location = new Point(
-                    contentX,
-                    210
+                panel2.Location = new Point(contentX, 210);
+                panel2.Size = new Size(panel2Width, 137);
+
+                panel4.Location = new Point(contentX + panel2Width + gap, 210);
+                panel4.Size = new Size(panel4Width, 137);
+
+                cPenulis.Location = new Point(63, 11);
+                cKategori.Location = new Point(63, 42);
+                cPenerbit.Location = new Point(63, 77);
+                cRak.Location = new Point(63, 108);
+
+                cPenulis.Width = panel2.Width - 70;
+                cKategori.Width = panel2.Width - 70;
+                cPenerbit.Width = panel2.Width - 70;
+                cRak.Width = panel2.Width - 70;
+
+                tJudul.Location = new Point(94, 12);
+                tIsbn.Location = new Point(94, 47);
+                tThnterbit.Location = new Point(94, 82);
+
+                tJudul.Width = panel4.Width - 102;
+                tIsbn.Width = panel4.Width - 102;
+                tThnterbit.Width = panel4.Width - 102;
+
+                panel3.Location = new Point(contentX, 355);
+                panel3.Size = new Size(contentWidth, 45);
+
+                bInsert.Location = new Point((panel3.Width / 2) - 180, 7);
+                bEdit.Location = new Point((panel3.Width / 2) - 30, 7);
+                bDelete.Location = new Point((panel3.Width / 2) + 120, 7);
+
+                label8.Location = new Point(contentX, 420);
+                cariBuku.Location = new Point(label8.Right + 8, 417);
+
+                dataGridView1.Location = new Point(contentX, 450);
+                dataGridView1.Size = new Size(
+                    contentWidth,
+                    Math.Max(100, this.ClientSize.Height - 485)
                 );
-
-                panel2.Size = new Size(
-                    panel2Width,
-                    137
-                );
-
-                panel4.Location = new Point(
-                    contentX + panel2Width + gap,
-                    210
-                );
-
-                panel4.Size = new Size(
-                    panel4Width,
-                    137
-                );
-
-                cPenulis.Location =
-                    new Point(63, 11);
-
-                cKategori.Location =
-                    new Point(63, 42);
-
-                cPenerbit.Location =
-                    new Point(63, 77);
-
-                cRak.Location =
-                    new Point(63, 108);
-
-                cPenulis.Width =
-                    panel2.Width - 70;
-
-                cKategori.Width =
-                    panel2.Width - 70;
-
-                cPenerbit.Width =
-                    panel2.Width - 70;
-
-                cRak.Width =
-                    panel2.Width - 70;
-
-                tJudul.Location =
-                    new Point(94, 12);
-
-                tIsbn.Location =
-                    new Point(94, 47);
-
-                tThnterbit.Location =
-                    new Point(94, 82);
-
-                tJudul.Width =
-                    panel4.Width - 102;
-
-                tIsbn.Width =
-                    panel4.Width - 102;
-
-                tThnterbit.Width =
-                    panel4.Width - 102;
-
-                panel3.Location =
-                    new Point(
-                        contentX,
-                        355
-                    );
-
-                panel3.Size =
-                    new Size(
-                        contentWidth,
-                        45
-                    );
-
-                bInsert.Location =
-                    new Point(
-                        (panel3.Width / 2) - 180,
-                        7
-                    );
-
-                bEdit.Location =
-                    new Point(
-                        (panel3.Width / 2) - 30,
-                        7
-                    );
-
-                bDelete.Location =
-                    new Point(
-                        (panel3.Width / 2) + 120,
-                        7
-                    );
-
-                label8.Location =
-                    new Point(contentX, 420);
-
-                cariBuku.Location =
-                    new Point(
-                        label8.Right + 8,
-                        417
-                    );
-
-                dataGridView1.Location =
-                    new Point(contentX, 450);
-
-                dataGridView1.Size =
-                    new Size(
-                        contentWidth,
-                        this.ClientSize.Height - 485
-                    );
             }
             else
             {
                 pHeader.Height = 65;
 
-                pLogo.Location =
-                    new Point(10, 5);
+                pLogo.Location = new Point(10, 5);
+                pLogo.Size = new Size(55, 55);
 
-                pLogo.Size =
-                    new Size(55, 55);
+                label1.Font = new Font(
+                    "Arial",
+                    18F,
+                    FontStyle.Bold
+                );
 
-                label1.Font =
-                    new Font(
-                        "Arial",
-                        18F,
-                        FontStyle.Bold
-                    );
-
-                label1.Location =
-                    new Point(
-                        (this.ClientSize.Width -
-                        label1.Width) / 2,
-                        18
-                    );
+                label1.Location = new Point(
+                    (this.ClientSize.Width - label1.Width) / 2,
+                    18
+                );
 
                 panel1.Width = 130;
+                panel1.Padding = new Padding(10);
 
-                panel1.Padding =
-                    new Padding(10);
+                lLine.Location = new Point(130, 65);
+                lLine.Size = new Size(
+                    this.ClientSize.Width - 130,
+                    40
+                );
 
-                lLine.Location =
-                    new Point(130, 65);
+                label2.Font = new Font(
+                    "Calibri",
+                    10F,
+                    FontStyle.Bold
+                );
 
-                lLine.Size =
-                    new Size(
-                        this.ClientSize.Width - 130,
-                        40
-                    );
+                label2.Location = new Point(140, 76);
 
-                label2.Font =
-                    new Font(
-                        "Calibri",
-                        10F,
-                        FontStyle.Bold
-                    );
+                label4.Font = new Font(
+                    "Calibri",
+                    10F,
+                    FontStyle.Bold
+                );
 
-                label2.Location =
-                    new Point(140, 76);
+                label4.Location = new Point(
+                    label2.Right + 5,
+                    76
+                );
 
-                label4.Font =
-                    new Font(
-                        "Calibri",
-                        10F,
-                        FontStyle.Bold
-                    );
+                button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button3.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button6.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button7.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+                button8.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
 
-                label4.Location =
-                    new Point(
-                        label2.Right + 5,
-                        76
-                    );
+                button1.Margin = new Padding(5, 6, 5, 6);
+                button2.Margin = new Padding(5, 6, 5, 6);
+                button3.Margin = new Padding(5, 6, 5, 6);
+                button4.Margin = new Padding(5, 6, 5, 6);
+                button5.Margin = new Padding(5, 6, 5, 6);
+                button6.Margin = new Padding(5, 6, 5, 6);
+                button7.Margin = new Padding(5, 6, 5, 6);
+                button8.Margin = new Padding(5, 6, 5, 6);
 
-                button1.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                int contentLeft = panel1.Width + 10;
+                int contentRight = this.ClientSize.Width - 10;
+                int contentWidth = Math.Max(200, contentRight - contentLeft);
 
-                button2.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                int gap = 10;
 
-                button3.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                int panel2Width = (int)(contentWidth * 0.4);
+                int panel4Width = contentWidth - panel2Width - gap;
 
-                button4.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                if (panel2Width < 200)
+                    panel2Width = 200;
 
-                button5.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                if (panel4Width < 220)
+                    panel4Width = 220;
 
-                button6.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                int totalWidth = panel2Width + gap + panel4Width;
 
-                button7.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                if (totalWidth > contentWidth)
+                {
+                    panel2Width = (int)(contentWidth * 0.45);
+                    panel4Width = contentWidth - panel2Width - gap;
+                }
 
-                button8.Font =
-                    new Font(
-                        "Microsoft Sans Serif",
-                        9F,
-                        FontStyle.Bold
-                    );
+                int contentX = contentLeft;
 
-                button1.Margin =
-                    new Padding(5, 6, 5, 6);
+                label3.Font = new Font(
+                    "Arial",
+                    14F,
+                    FontStyle.Bold
+                );
 
-                button2.Margin =
-                    new Padding(5, 6, 5, 6);
+                label3.Location = new Point(
+                    130 + ((this.ClientSize.Width - 130 - label3.Width) / 2),
+                    112
+                );
 
-                button3.Margin =
-                    new Padding(5, 6, 5, 6);
+                panel2.Location = new Point(contentX, 140);
+                panel2.Size = new Size(panel2Width, 137);
 
-                button4.Margin =
-                    new Padding(5, 6, 5, 6);
+                panel4.Location = new Point(contentX + panel2Width + gap, 140);
+                panel4.Size = new Size(panel4Width, 137);
 
-                button5.Margin =
-                    new Padding(5, 6, 5, 6);
+                cPenulis.Location = new Point(63, 11);
+                cKategori.Location = new Point(63, 42);
+                cPenerbit.Location = new Point(63, 77);
+                cRak.Location = new Point(63, 108);
 
-                button6.Margin =
-                    new Padding(5, 6, 5, 6);
+                cPenulis.Width = Math.Max(50, panel2.Width - 70);
+                cKategori.Width = Math.Max(50, panel2.Width - 70);
+                cPenerbit.Width = Math.Max(50, panel2.Width - 70);
+                cRak.Width = Math.Max(50, panel2.Width - 70);
 
-                button7.Margin =
-                    new Padding(5, 6, 5, 6);
+                tJudul.Location = new Point(94, 12);
+                tIsbn.Location = new Point(94, 47);
+                tThnterbit.Location = new Point(94, 82);
 
-                button8.Margin =
-                    new Padding(5, 6, 5, 6);
+                tJudul.Width = Math.Max(50, panel4.Width - 102);
+                tIsbn.Width = Math.Max(50, panel4.Width - 102);
+                tThnterbit.Width = Math.Max(50, panel4.Width - 102);
+
+                panel3.Location = new Point(contentX, 285);
+                panel3.Size = new Size(contentWidth, 40);
+
+                bInsert.Location = new Point((panel3.Width / 2) - 140, 5);
+                bEdit.Location = new Point((panel3.Width / 2) - 25, 5);
+                bDelete.Location = new Point((panel3.Width / 2) + 90, 5);
+
+                label8.Location = new Point(contentX, 332);
+                cariBuku.Location = new Point(label8.Right + 8, 330);
+
+                dataGridView1.Location = new Point(contentX, 360);
+                dataGridView1.Size = new Size(
+                    contentWidth,
+                    Math.Max(80, this.ClientSize.Height - 375)
+                );
             }
 
             ResumeLayout();

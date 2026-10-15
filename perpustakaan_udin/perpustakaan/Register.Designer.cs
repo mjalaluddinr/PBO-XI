@@ -35,6 +35,8 @@ namespace perpustakaan
             this.username = new System.Windows.Forms.TextBox();
             this.bton = new System.Windows.Forms.Button();
             this.panelRegister = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panelRegister.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,11 +75,12 @@ namespace perpustakaan
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.label4.Location = new System.Drawing.Point(320, 94);
+            this.label4.Location = new System.Drawing.Point(318, 89);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "Username";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -103,7 +106,7 @@ namespace perpustakaan
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(320, 123);
+            this.label7.Location = new System.Drawing.Point(318, 123);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 13);
             this.label7.TabIndex = 6;
@@ -149,18 +152,19 @@ namespace perpustakaan
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(394, 94);
+            this.username.Location = new System.Drawing.Point(394, 89);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(141, 20);
             this.username.TabIndex = 12;
+            this.username.TextChanged += new System.EventHandler(this.username_TextChanged);
             // 
             // bton
             // 
-            this.bton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(90)))), ((int)(((byte)(194)))));
+            this.bton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(74)))), ((int)(((byte)(182)))));
             this.bton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold);
             this.bton.ForeColor = System.Drawing.Color.White;
-            this.bton.Location = new System.Drawing.Point(228, 298);
+            this.bton.Location = new System.Drawing.Point(237, 283);
             this.bton.Name = "bton";
             this.bton.Size = new System.Drawing.Size(112, 46);
             this.bton.TabIndex = 13;
@@ -171,6 +175,8 @@ namespace perpustakaan
             // panelRegister
             // 
             this.panelRegister.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(223)))), ((int)(((byte)(255)))));
+            this.panelRegister.Controls.Add(this.button1);
+            this.panelRegister.Controls.Add(this.label8);
             this.panelRegister.Controls.Add(this.bton);
             this.panelRegister.Controls.Add(this.username);
             this.panelRegister.Controls.Add(this.password);
@@ -187,8 +193,32 @@ namespace perpustakaan
             this.panelRegister.Controls.Add(this.label1);
             this.panelRegister.Location = new System.Drawing.Point(20, 20);
             this.panelRegister.Name = "panelRegister";
-            this.panelRegister.Size = new System.Drawing.Size(568, 356);
+            this.panelRegister.Size = new System.Drawing.Size(568, 383);
             this.panelRegister.TabIndex = 14;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.label8.Location = new System.Drawing.Point(146, 347);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(129, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Sudah Punya Akun??";
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(142)))), ((int)(((byte)(108)))), ((int)(((byte)(207)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(281, 335);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(79, 34);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Login";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Register
             // 
@@ -226,5 +256,7 @@ namespace perpustakaan
         private System.Windows.Forms.TextBox username;
         private System.Windows.Forms.Button bton;
         private System.Windows.Forms.Panel panelRegister;
+        private Label label8;
+        private Button button1;
     }
 }

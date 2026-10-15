@@ -32,7 +32,9 @@ namespace perpustakaan
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Login panggil = new Login();
+            panggil.Show();
+            this.Hide();
         }
     }
 }
