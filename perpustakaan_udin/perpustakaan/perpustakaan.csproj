@@ -55,6 +55,12 @@
     <Compile Include="buku_admin.Designer.cs">
       <DependentUpon>buku_admin.cs</DependentUpon>
     </Compile>
+    <Compile Include="caribuku_anggota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="caribuku_anggota.Designer.cs">
+      <DependentUpon>caribuku_anggota.cs</DependentUpon>
+    </Compile>
     <Compile Include="kategori_admin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,12 @@
     <Compile Include="peminjaman_admin.Designer.cs">
       <DependentUpon>peminjaman_admin.cs</DependentUpon>
     </Compile>
+    <Compile Include="peminjamanbuku_anggota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="peminjamanbuku_anggota.Designer.cs">
+      <DependentUpon>peminjamanbuku_anggota.cs</DependentUpon>
+    </Compile>
     <Compile Include="penerbit_admin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,8 +124,17 @@
     <Compile Include="Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
+    <Compile Include="riwayat_anggota.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="riwayat_anggota.Designer.cs">
+      <DependentUpon>riwayat_anggota.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="buku_admin.resx">
       <DependentUpon>buku_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="caribuku_anggota.resx">
+      <DependentUpon>caribuku_anggota.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="kategori_admin.resx">
       <DependentUpon>kategori_admin.cs</DependentUpon>
@@ -129,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="peminjaman_admin.resx">
       <DependentUpon>peminjaman_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="peminjamanbuku_anggota.resx">
+      <DependentUpon>peminjamanbuku_anggota.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="penerbit_admin.resx">
       <DependentUpon>penerbit_admin.cs</DependentUpon>
@@ -151,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Register.resx">
       <DependentUpon>Register.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="riwayat_anggota.resx">
+      <DependentUpon>riwayat_anggota.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
