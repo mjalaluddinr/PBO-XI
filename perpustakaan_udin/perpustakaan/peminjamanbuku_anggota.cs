@@ -52,11 +52,60 @@ namespace perpustakaan
         {
             InitializeComponent();
 
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.Dock = DockStyle.Fill;
+
+            this.Load -= peminjamanbuku_anggota_Load;
+            this.Load += peminjamanbuku_anggota_Load;
+
             showIdBuku();
 
             dataGridView1.ColumnCount = 2;
             dataGridView1.Columns[0].Name = "ID Buku";
             dataGridView1.Columns[1].Name = "Judul Buku";
+        }
+
+        private void AturLayout()
+        {
+            this.BackColor = Color.White;
+
+            panel4.Anchor = AnchorStyles.Top |
+                           AnchorStyles.Bottom |
+                           AnchorStyles.Left |
+                           AnchorStyles.Right;
+
+            panel5.Anchor = AnchorStyles.Bottom |
+                           AnchorStyles.Left |
+                           AnchorStyles.Right;
+
+            panel1.Dock = DockStyle.Fill;
+            panel1.BackColor = Color.White;
+        }
+
+        private void panel1_Resize(object sender, EventArgs e)
+        {
+            if (panel1 == null || label3 == null ||
+                panel5 == null || button1 == null)
+            {
+                return;
+            }
+
+            label3.Location = new Point(
+                (panel1.ClientSize.Width - label3.Width) / 2,
+                15
+            );
+
+            button1.Left = (panel5.ClientSize.Width - button1.Width) / 2;
+        }
+
+        private void peminjamanbuku_anggota_Load(object sender, EventArgs e)
+        {
+            AturLayout();
+
+            panel1.Resize -= panel1_Resize;
+            panel1.Resize += panel1_Resize;
+
+            panel1_Resize(null, EventArgs.Empty);
         }
 
         private void button1_Click(object sender, EventArgs e)

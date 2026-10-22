@@ -234,9 +234,9 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.label8.Location = new System.Drawing.Point(82, 83);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 15);
+            this.label8.Size = new System.Drawing.Size(11, 15);
             this.label8.TabIndex = 29;
-            this.label8.Text = "label8";
+            this.label8.Text = "-";
             // 
             // label7
             // 
@@ -244,9 +244,9 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.label7.Location = new System.Drawing.Point(82, 56);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(41, 15);
+            this.label7.Size = new System.Drawing.Size(11, 15);
             this.label7.TabIndex = 28;
-            this.label7.Text = "label7";
+            this.label7.Text = "-";
             // 
             // label6
             // 
@@ -254,9 +254,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.label6.Location = new System.Drawing.Point(82, 31);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 15);
+            this.label6.Size = new System.Drawing.Size(11, 15);
             this.label6.TabIndex = 27;
-            this.label6.Text = "label6";
+            this.label6.Text = "-";
             this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label5
