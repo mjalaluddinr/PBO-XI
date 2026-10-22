@@ -145,6 +145,7 @@ namespace perpustakaan
                         reader.Read();
 
                         Model.name = reader.GetString(1);
+                        Model.iduser = dr["user_id"].ToString();
 
                         this.Hide();
 

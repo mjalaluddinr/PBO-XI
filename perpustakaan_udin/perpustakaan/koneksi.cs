@@ -14,5 +14,8 @@ namespace perpustakaan
     public class Model
     {
         public static string name {  get; set; }
+
+        public static string iduser { get; set; }
+        public static string username { get; set; }
     }
 }

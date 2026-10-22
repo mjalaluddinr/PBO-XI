@@ -117,7 +117,7 @@ namespace perpustakaan
             }
 
             string idBuku = idbuku.SelectedItem.ToString();
-            string judulBuku = label7.Text;
+            string judulBuku = label6.Text;
 
             if (!keranjangBuku.Contains(idBuku))
             {
@@ -194,6 +194,78 @@ namespace perpustakaan
 
         private void label6_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (keranjangBuku.Count == 0)
+            {
+                MessageBox.Show("Keranjang masih kosong!");
+                return;
+            }
+
+            using (SqlConnection connection = new SqlConnection(koneksi.conn))
+            {
+                connection.Open();  // Buka koneksi
+                try
+                {
+                    // insert ke tabel peminjaman
+                    string sqlPinjam = @"INSERT INTO peminjaman 
+                (peminjaman_user_id, peminjaman_tglpinjam, peminjaman_tglkembali, peminjaman_statuskembali, peminjaman_note, peminjaman_denda)
+                VALUES (@user, @tglpinjam, @tglkembali, @status, @note, @denda)";
+
+                    command = new SqlCommand(sqlPinjam, connection);
+                    command.Parameters.AddWithValue("@user", Model.iduser);
+                    command.Parameters.AddWithValue("@tglpinjam", DateTime.Today);
+                    command.Parameters.AddWithValue("@tglkembali", DateTime.Today.AddDays(7));
+                    command.Parameters.AddWithValue("@status", 0); // 0 = Dipinjam, 1 = Dikembalikan
+                    command.Parameters.AddWithValue("@note", "");
+                    command.Parameters.AddWithValue("@denda", 0);
+                    command.ExecuteNonQuery();
+
+                    // ambil peminjaman_id terakhir (ID dari trigger)
+                    string sqlGetId = "SELECT TOP 1 peminjaman_id FROM peminjaman ORDER BY TRY_CAST(SUBSTRING(peminjaman_id, 3, 15) AS INT) DESC";
+                    string peminjamanId;
+                    using (SqlCommand cmdGet = new SqlCommand(sqlGetId, connection))
+                    {
+                        peminjamanId = cmdGet.ExecuteScalar().ToString();
+                    }
+
+                    // insert detail (banyak buku)
+                    string sqlDetail = @"INSERT INTO peminjaman_detail 
+                (peminjaman_detail_peminjaman_id, peminjaman_detail_buku_id)
+                VALUES (@pinjamid, @bukuid)";
+
+                    foreach (string idBuku in keranjangBuku) // ambil dari lLst
+                    {
+                        command = new SqlCommand(sqlDetail, connection);
+                        command.Parameters.AddWithValue("@pinjamid", peminjamanId);
+                        command.Parameters.AddWithValue("@bukuid", idBuku);
+                        command.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Peminjaman berhasil disimpan!");
+
+                    keranjangBuku.Clear();
+                    dataGridView1.Rows.Clear();
+
+                    // === REFRESH RIWAYAT SECARA OTOMATIS ===
+                    var parent = this.Parent;
+                    if (parent != null)
+                    {
+                        riwayat_anggota r = parent.Controls.OfType<riwayat_anggota>().FirstOrDefault();
+                        if (r != null)
+                        {
+                            r.showData();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
 
         }
     }
