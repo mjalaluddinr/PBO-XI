@@ -306,24 +306,22 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(
-                        "Successfully inserted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data penulis berhasil ditambahkan.",
+                        "Penulis tersimpan", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show("Error at: " + ex.Message);
+                    TemaPopup.Tampilkan(this, "Data penulis gagal disimpan. Periksa kembali isian dan koneksi database.",
+                        "Penyimpanan gagal", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Please fill all data before insert!");
+                TemaPopup.Tampilkan(this, "Lengkapi nama, tempat lahir, dan tanggal lahir penulis.",
+                    "Data belum lengkap", MessageBoxIcon.Warning);
             }
         }
 
@@ -336,12 +334,8 @@ namespace perpustakaan
                     !string.IsNullOrEmpty(tempatLahir.Text) &&
                     tglLahir.CustomFormat != " ")
                 {
-                    DialogResult result = MessageBox.Show(
-                        "Are you sure to update?",
-                        "Confirmation",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question
-                    );
+                    DialogResult result = TemaPopup.Konfirmasi(this,
+                        "Simpan perubahan pada data penulis ini?", "Konfirmasi perubahan");
 
                     if (result == DialogResult.Yes)
                     {
@@ -367,35 +361,29 @@ namespace perpustakaan
                                 command.ExecuteNonQuery();
                             }
 
-                            MessageBox.Show(
-                                "Successfully updated!",
-                                "Information",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan data penulis berhasil disimpan.",
+                                "Penulis diperbarui", MessageBoxIcon.Information);
 
                             clear();
                             showData();
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show(ex.Message);
+                            TemaPopup.Tampilkan(this, "Perubahan data penulis gagal disimpan.",
+                                "Penyimpanan gagal", MessageBoxIcon.Warning);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please fill all data!");
+                    TemaPopup.Tampilkan(this, "Lengkapi nama, tempat lahir, dan tanggal lahir penulis.",
+                        "Data belum lengkap", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih penulis yang ingin diubah terlebih dahulu.",
+                    "Penulis belum dipilih", MessageBoxIcon.Warning);
             }
         }
 
@@ -404,22 +392,15 @@ namespace perpustakaan
             if (dataGridView1.CurrentRow == null ||
                 !dataGridView1.CurrentRow.Selected)
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih penulis yang ingin dihapus terlebih dahulu.",
+                    "Penulis belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
 
-            DialogResult result = MessageBox.Show(
-                "Are you sure to delete?",
-                "Confirmation",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Yakin ingin menghapus data penulis yang dipilih?",
+                "Konfirmasi hapus penulis");
 
             if (result == DialogResult.Yes)
             {
@@ -435,22 +416,28 @@ namespace perpustakaan
                         command.Parameters.AddWithValue("@id_penulis", id_penulis);
 
                         connection.Open();
-                        command.ExecuteNonQuery();
+                        int affected = command.ExecuteNonQuery();
+                        if (affected == 0)
+                        {
+                            TemaPopup.Tampilkan(this, "Data penulis tidak ditemukan atau sudah dihapus.",
+                                "Penghapusan tidak dilakukan", MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
 
-                    MessageBox.Show(
-                        "Successfully deleted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data penulis berhasil dihapus.",
+                        "Penulis dihapus", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    TemaPopup.Tampilkan(this,
+                        ex is SqlException && ((SqlException)ex).Number == 547
+                            ? "Penulis tidak dapat dihapus karena masih digunakan oleh data buku. Hapus atau pindahkan relasi tersebut terlebih dahulu."
+                            : "Data penulis gagal dihapus. Periksa koneksi database lalu coba lagi.",
+                        "Penghapusan gagal", MessageBoxIcon.Warning);
                 }
             }
         }

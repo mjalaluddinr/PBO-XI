@@ -50,7 +50,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.tThnterbit = new System.Windows.Forms.TextBox();
+            this.tThnterbit = new System.Windows.Forms.NumericUpDown();
             this.tIsbn = new System.Windows.Forms.TextBox();
             this.tJudul = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -483,6 +483,9 @@
             this.tThnterbit.Name = "tThnterbit";
             this.tThnterbit.Size = new System.Drawing.Size(152, 20);
             this.tThnterbit.TabIndex = 17;
+            this.tThnterbit.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            this.tThnterbit.Minimum = new decimal(new int[] { 1000, 0, 0, 0 });
+            this.tThnterbit.Value = new decimal(new int[] { 1000, 0, 0, 0 });
             // 
             // tIsbn
             // 
@@ -647,7 +650,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.TextBox tThnterbit;
+        private System.Windows.Forms.NumericUpDown tThnterbit;
         private System.Windows.Forms.TextBox tIsbn;
         private System.Windows.Forms.TextBox tJudul;
         private System.Windows.Forms.Label label10;

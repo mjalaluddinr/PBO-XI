@@ -14,6 +14,7 @@ namespace perpustakaan
         DataTable tabel;
         SqlDataReader reader;
         public string id_buku = "";
+        private readonly ErrorProvider errorProvider = new ErrorProvider();
 
         public buku_admin()
         {
@@ -204,7 +205,7 @@ namespace perpustakaan
         {
             tJudul.Text = "";
             tIsbn.Text = "";
-            tThnterbit.Text = "";
+            tThnterbit.Value = DateTime.Now.Year;
 
             cPenulis.SelectedIndex = -1;
             cKategori.SelectedIndex = -1;
@@ -216,24 +217,24 @@ namespace perpustakaan
             dataGridView1.ClearSelection();
         }
 
+        // ASVS 2.2.1: ISBN divalidasi sebelum data buku disimpan atau diperbarui.
         private bool inputValid()
         {
-            if (string.IsNullOrEmpty(tJudul.Text) ||
-                string.IsNullOrEmpty(tIsbn.Text) ||
-                string.IsNullOrEmpty(tThnterbit.Text) ||
+            if (string.IsNullOrWhiteSpace(tJudul.Text) ||
+                string.IsNullOrWhiteSpace(tIsbn.Text) ||
                 cPenulis.SelectedIndex == -1 ||
                 cKategori.SelectedIndex == -1 ||
                 cPenerbit.SelectedIndex == -1 ||
                 cRak.SelectedIndex == -1)
             {
-                MessageBox.Show("Please fill all data!");
+                TemaPopup.Tampilkan(this, "Lengkapi semua data buku sebelum menyimpan.", "Data belum lengkap", MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (tThnterbit.Text.Length != 4 ||
-                !tThnterbit.Text.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(tIsbn.Text) ||
+                !tIsbn.Text.All(char.IsDigit))
             {
-                MessageBox.Show("Tahun terbit harus 4 digit angka!");
+                TemaPopup.Tampilkan(this, "ISBN hanya boleh berisi angka.", "ISBN tidak valid", MessageBoxIcon.Warning);
                 return false;
             }
 
@@ -248,7 +249,7 @@ namespace perpustakaan
             cmd.Parameters.AddWithValue("@rak", cRak.Text);
             cmd.Parameters.AddWithValue("@judul", tJudul.Text);
             cmd.Parameters.AddWithValue("@isbn", tIsbn.Text);
-            cmd.Parameters.AddWithValue("@tahun", tThnterbit.Text);
+            cmd.Parameters.Add("@tahun", SqlDbType.Int).Value = Decimal.ToInt32(tThnterbit.Value);
         }
 
         public void insertData()
@@ -290,19 +291,16 @@ namespace perpustakaan
                     command.ExecuteNonQuery();
                 }
 
-                MessageBox.Show(
-                    "Successfully inserted!",
-                    "Information",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                TemaPopup.Tampilkan(this, "Data buku berhasil ditambahkan.",
+                    "Buku tersimpan", MessageBoxIcon.Information);
 
                 clear();
                 showData();
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Error at: " + ex.Message);
+                TemaPopup.Tampilkan(this, "Data buku gagal disimpan. Periksa kembali isian dan koneksi database.",
+                    "Penyimpanan gagal", MessageBoxIcon.Warning);
             }
         }
 
@@ -310,12 +308,8 @@ namespace perpustakaan
         {
             if (string.IsNullOrEmpty(id_buku))
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih buku yang ingin diubah terlebih dahulu.",
+                    "Buku belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
@@ -323,12 +317,8 @@ namespace perpustakaan
             if (!inputValid())
                 return;
 
-            DialogResult result = MessageBox.Show(
-                "Are you sure to update?",
-                "Confirmation",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Simpan perubahan pada data buku ini?", "Konfirmasi perubahan");
 
             if (result == DialogResult.Yes)
             {
@@ -377,19 +367,16 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(
-                        "Successfully updated!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Perubahan data buku berhasil disimpan.",
+                        "Buku diperbarui", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(ex.Message);
+                    TemaPopup.Tampilkan(this, "Perubahan data buku gagal disimpan.",
+                        "Penyimpanan gagal", MessageBoxIcon.Warning);
                 }
             }
         }
@@ -398,22 +385,14 @@ namespace perpustakaan
         {
             if (string.IsNullOrEmpty(id_buku))
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih buku yang ingin dihapus terlebih dahulu.",
+                    "Buku belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
 
-            DialogResult result = MessageBox.Show(
-                "Are you sure to delete?",
-                "Confirmation",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Yakin ingin menghapus data buku yang dipilih?", "Konfirmasi hapus buku");
 
             if (result == DialogResult.Yes)
             {
@@ -432,22 +411,28 @@ namespace perpustakaan
                         );
 
                         connection.Open();
-                        command.ExecuteNonQuery();
+                        int affected = command.ExecuteNonQuery();
+                        if (affected == 0)
+                        {
+                            TemaPopup.Tampilkan(this, "Data buku tidak ditemukan atau sudah dihapus.",
+                                "Penghapusan tidak dilakukan", MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
 
-                    MessageBox.Show(
-                        "Successfully deleted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data buku berhasil dihapus.",
+                        "Buku dihapus", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    TemaPopup.Tampilkan(this,
+                        ex is SqlException && ((SqlException)ex).Number == 547
+                            ? "Buku tidak dapat dihapus karena masih digunakan pada transaksi peminjaman."
+                            : "Data buku gagal dihapus. Periksa koneksi database lalu coba lagi.",
+                        "Penghapusan gagal", MessageBoxIcon.Warning);
                 }
             }
         }
@@ -519,8 +504,12 @@ namespace perpustakaan
             tIsbn.Text =
                 Convert.ToString(row.Cells[2].Value);
 
-            tThnterbit.Text =
-                Convert.ToString(row.Cells[3].Value);
+            int tahunTerbit;
+            if (int.TryParse(Convert.ToString(row.Cells[3].Value), out tahunTerbit))
+            {
+                tThnterbit.Value = Math.Max(tThnterbit.Minimum,
+                    Math.Min(tThnterbit.Maximum, tahunTerbit));
+            }
 
             string namaPenulis =
                 Convert.ToString(row.Cells[4].Value);
@@ -925,9 +914,15 @@ namespace perpustakaan
 
         private void buku_admin_Load(object sender, EventArgs e)
         {
+            errorProvider.ContainerControl = this;
             tJudul.MaxLength = 40;
             tIsbn.MaxLength = 16;
-            tThnterbit.MaxLength = 4;
+            tThnterbit.Value = DateTime.Now.Year;
+            tIsbn.Text = new string(tIsbn.Text.Where(char.IsDigit).ToArray());
+            tIsbn.KeyPress -= HanyaAngka_KeyPress;
+            tIsbn.KeyPress += HanyaAngka_KeyPress;
+            tIsbn.TextChanged -= Isbn_TextChanged;
+            tIsbn.TextChanged += Isbn_TextChanged;
 
             cPenulis.DropDownStyle =
                 ComboBoxStyle.DropDownList;
@@ -951,6 +946,19 @@ namespace perpustakaan
             showNamaRak();
 
             showData();
+        }
+
+        private void HanyaAngka_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
+        }
+
+        private void Isbn_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.SetError(tIsbn,
+                tIsbn.Text.Length > 0 && !tIsbn.Text.All(char.IsDigit)
+                    ? "ISBN hanya boleh berisi angka."
+                    : string.Empty);
         }
 
         private void button1_Click_1(object sender, EventArgs e)

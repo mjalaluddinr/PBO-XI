@@ -2,12 +2,15 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace perpustakaan
 {
     public partial class penerbit_admin : Form
     {
+        private readonly ErrorProvider errorProvider = new ErrorProvider();
         public SqlConnection connection = new SqlConnection(koneksi.conn);
         public SqlCommand command;
         public SqlDataAdapter adapter;
@@ -314,6 +317,8 @@ namespace perpustakaan
 
         public void insertData()
         {
+            if (!ValidasiData()) return;
+
             if (!string.IsNullOrEmpty(nama.Text) &&
                 !string.IsNullOrEmpty(alamat.Text) &&
                 !string.IsNullOrEmpty(noTelp.Text) &&
@@ -339,29 +344,29 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(
-                        "Successfully inserted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data penerbit berhasil ditambahkan.",
+                        "Penerbit tersimpan", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show("Error at: " + ex.Message);
+                    TemaPopup.Tampilkan(this, "Penerbit gagal disimpan. Periksa kembali data dan koneksi database.",
+                        "Penyimpanan gagal", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Please fill all data before insert!");
+                TemaPopup.Tampilkan(this, "Lengkapi semua data penerbit.",
+                    "Data belum lengkap", MessageBoxIcon.Warning);
             }
         }
 
         public void editData()
         {
+            if (!ValidasiData()) return;
+
             if (dataGridView1.CurrentRow != null &&
                 dataGridView1.CurrentRow.Selected)
             {
@@ -370,12 +375,8 @@ namespace perpustakaan
                     !string.IsNullOrEmpty(noTelp.Text) &&
                     !string.IsNullOrEmpty(email.Text))
                 {
-                    DialogResult result = MessageBox.Show(
-                        "Are you sure to update?",
-                        "Confirmation",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question
-                    );
+                    DialogResult result = TemaPopup.Konfirmasi(this,
+                        "Simpan perubahan pada data penerbit ini?", "Konfirmasi perubahan");
 
                     if (result == DialogResult.Yes)
                     {
@@ -403,35 +404,29 @@ namespace perpustakaan
                                 command.ExecuteNonQuery();
                             }
 
-                            MessageBox.Show(
-                                "Successfully updated!",
-                                "Information",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan data penerbit berhasil disimpan.",
+                                "Penerbit diperbarui", MessageBoxIcon.Information);
 
                             clear();
                             showData();
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show(ex.Message);
+                            TemaPopup.Tampilkan(this, "Perubahan data penerbit gagal disimpan.",
+                                "Penyimpanan gagal", MessageBoxIcon.Warning);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please fill all data!");
+                    TemaPopup.Tampilkan(this, "Lengkapi semua data penerbit.",
+                        "Data belum lengkap", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih penerbit yang ingin diubah terlebih dahulu.",
+                    "Penerbit belum dipilih", MessageBoxIcon.Warning);
             }
         }
 
@@ -440,22 +435,14 @@ namespace perpustakaan
             if (dataGridView1.CurrentRow == null ||
                 !dataGridView1.CurrentRow.Selected)
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih penerbit yang ingin dihapus terlebih dahulu.",
+                    "Penerbit belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
 
-            DialogResult result = MessageBox.Show(
-                "Are you sure to delete?",
-                "Confirmation",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Yakin ingin menghapus data penerbit yang dipilih?", "Konfirmasi hapus penerbit");
 
             if (result == DialogResult.Yes)
             {
@@ -471,22 +458,28 @@ namespace perpustakaan
                         command.Parameters.AddWithValue("@id_penerbit", id_penerbit);
 
                         connection.Open();
-                        command.ExecuteNonQuery();
+                        int affected = command.ExecuteNonQuery();
+                        if (affected == 0)
+                        {
+                            TemaPopup.Tampilkan(this, "Data penerbit tidak ditemukan atau sudah dihapus.",
+                                "Penghapusan tidak dilakukan", MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
 
-                    MessageBox.Show(
-                        "Successfully deleted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data penerbit berhasil dihapus.",
+                        "Penerbit dihapus", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    TemaPopup.Tampilkan(this,
+                        ex is SqlException && ((SqlException)ex).Number == 547
+                            ? "Penerbit tidak dapat dihapus karena masih digunakan oleh data buku. Hapus atau pindahkan relasi tersebut terlebih dahulu."
+                            : "Penerbit gagal dihapus. Periksa koneksi database lalu coba lagi.",
+                        "Penghapusan gagal", MessageBoxIcon.Warning);
                 }
             }
         }
@@ -579,8 +572,70 @@ namespace perpustakaan
 
         private void penerbit_admin_Load(object sender, EventArgs e)
         {
+            errorProvider.ContainerControl = this;
+            noTelp.KeyPress -= HanyaAngka_KeyPress;
+            noTelp.KeyPress += HanyaAngka_KeyPress;
+            noTelp.TextChanged -= NoTelp_TextChanged;
+            noTelp.TextChanged += NoTelp_TextChanged;
+            email.TextChanged -= Email_TextChanged;
+            email.TextChanged += Email_TextChanged;
+            noTelp.MaxLength = 20;
             label4.Text = Model.name;
             AturLayout();
+        }
+
+        private void HanyaAngka_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
+        }
+
+        private void NoTelp_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.SetError(noTelp,
+                noTelp.Text.Length > 0 && !noTelp.Text.All(char.IsDigit)
+                    ? "Nomor telepon hanya boleh berisi angka."
+                    : string.Empty);
+        }
+
+        private void Email_TextChanged(object sender, EventArgs e)
+        {
+            bool valid = string.IsNullOrWhiteSpace(email.Text) ||
+                Regex.IsMatch(email.Text, @"^[^\s@]+@[^\s@]+\.[^\s@]+$");
+            errorProvider.SetError(email,
+                valid ? string.Empty : "Masukkan email dengan format nama@domain.com.");
+        }
+
+        // ASVS 2.2.1: validasi nomor telepon dan email dilakukan sebelum database diubah.
+        private bool ValidasiData()
+        {
+            if (string.IsNullOrWhiteSpace(nama.Text) ||
+                string.IsNullOrWhiteSpace(alamat.Text) ||
+                string.IsNullOrWhiteSpace(noTelp.Text) ||
+                string.IsNullOrWhiteSpace(email.Text))
+            {
+                TemaPopup.Tampilkan(this, "Lengkapi semua data penerbit.", "Data belum lengkap", MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (!noTelp.Text.All(char.IsDigit))
+            {
+                errorProvider.SetError(noTelp, "Nomor telepon hanya boleh berisi angka.");
+                TemaPopup.Tampilkan(this, "Nomor telepon hanya boleh berisi angka.",
+                    "Nomor telepon tidak valid", MessageBoxIcon.Warning);
+                noTelp.Focus();
+                return false;
+            }
+
+            if (!Regex.IsMatch(email.Text, @"^[^\s@]+@[^\s@]+\.[^\s@]+$"))
+            {
+                errorProvider.SetError(email, "Masukkan email dengan format nama@domain.com.");
+                TemaPopup.Tampilkan(this, "Periksa kembali alamat email. Gunakan format nama@domain.com.",
+                    "Email tidak valid", MessageBoxIcon.Warning);
+                email.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void button1_Click(object sender, EventArgs e)

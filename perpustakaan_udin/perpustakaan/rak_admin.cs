@@ -2,12 +2,14 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace perpustakaan
 {
     public partial class rak_admin : Form
     {
+        private readonly ErrorProvider errorProvider = new ErrorProvider();
         public SqlConnection connection = new SqlConnection(koneksi.conn);
         public SqlCommand command;
         public SqlDataAdapter adapter;
@@ -25,6 +27,22 @@ namespace perpustakaan
             this.Resize += rak_admin_Resize;
 
             AturLayout();
+        }
+
+        // ASVS 2.2.1: kapasitas divalidasi sebagai bilangan positif sebelum disimpan.
+        private bool ValidasiRak()
+        {
+            int kapasitas;
+            bool valid = int.TryParse(rakKapasitas.Text, out kapasitas) && kapasitas > 0;
+            errorProvider.SetError(rakKapasitas,
+                valid ? string.Empty : "Kapasitas harus berupa angka lebih dari nol.");
+            if (!valid)
+            {
+                TemaPopup.Tampilkan(this, "Kapasitas rak harus berupa angka lebih dari nol.",
+                    "Kapasitas tidak valid", MessageBoxIcon.Warning);
+                rakKapasitas.Focus();
+            }
+            return valid;
         }
 
         private void rak_admin_Resize(object sender, EventArgs e)
@@ -615,10 +633,12 @@ namespace perpustakaan
         {
             int kapasitas;
 
+            if (!ValidasiRak()) return;
+
             if (!string.IsNullOrEmpty(rakNama.Text) &&
                 !string.IsNullOrEmpty(rakLokasi.Text) &&
                 !string.IsNullOrEmpty(rakKapasitas.Text) &&
-                int.TryParse(rakKapasitas.Text, out kapasitas))
+                int.TryParse(rakKapasitas.Text, out kapasitas) && kapasitas > 0)
             {
                 try
                 {
@@ -656,34 +676,30 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(
-                        "Successfully inserted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data rak berhasil ditambahkan.",
+                        "Rak tersimpan", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(
-                        "Error at: " + ex.Message
-                    );
+                    TemaPopup.Tampilkan(this, "Data rak gagal disimpan. Periksa kembali data dan koneksi database.",
+                        "Penyimpanan gagal", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please fill all data before insert!"
-                );
+                TemaPopup.Tampilkan(this, "Lengkapi nama, lokasi, dan kapasitas rak.",
+                    "Data belum lengkap", MessageBoxIcon.Warning);
             }
         }
 
         public void editData()
         {
             int kapasitas;
+
+            if (!ValidasiRak()) return;
 
             if (dataGridView1.CurrentRow != null &&
                 dataGridView1.CurrentRow.Selected)
@@ -694,15 +710,10 @@ namespace perpustakaan
                     int.TryParse(
                         rakKapasitas.Text,
                         out kapasitas
-                    ))
+                    ) && kapasitas > 0)
                 {
-                    DialogResult result =
-                        MessageBox.Show(
-                            "Are you sure to update?",
-                            "Confirmation",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question
-                        );
+                    DialogResult result = TemaPopup.Konfirmasi(this,
+                        "Simpan perubahan pada data rak ini?", "Konfirmasi perubahan");
 
                     if (result == DialogResult.Yes)
                     {
@@ -748,39 +759,29 @@ namespace perpustakaan
                                 command.ExecuteNonQuery();
                             }
 
-                            MessageBox.Show(
-                                "Successfully updated!",
-                                "Information",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan data rak berhasil disimpan.",
+                                "Rak diperbarui", MessageBoxIcon.Information);
 
                             clear();
                             showData();
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show(
-                                ex.Message
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan data rak gagal disimpan.",
+                                "Penyimpanan gagal", MessageBoxIcon.Warning);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "Please fill all data!"
-                    );
+                    TemaPopup.Tampilkan(this, "Lengkapi nama, lokasi, dan kapasitas rak.",
+                        "Data belum lengkap", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih data rak yang ingin diubah terlebih dahulu.",
+                    "Rak belum dipilih", MessageBoxIcon.Warning);
             }
         }
 
@@ -789,23 +790,14 @@ namespace perpustakaan
             if (dataGridView1.CurrentRow == null ||
                 !dataGridView1.CurrentRow.Selected)
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih rak yang ingin dihapus terlebih dahulu.",
+                    "Rak belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
 
-            DialogResult result =
-                MessageBox.Show(
-                    "Are you sure to delete?",
-                    "Confirmation",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Yakin ingin menghapus data rak yang dipilih?", "Konfirmasi hapus rak");
 
             if (result == DialogResult.Yes)
             {
@@ -829,25 +821,28 @@ namespace perpustakaan
                         );
 
                         connection.Open();
-
-                        command.ExecuteNonQuery();
+                        int affected = command.ExecuteNonQuery();
+                        if (affected == 0)
+                        {
+                            TemaPopup.Tampilkan(this, "Data rak tidak ditemukan atau sudah dihapus.",
+                                "Penghapusan tidak dilakukan", MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
 
-                    MessageBox.Show(
-                        "Successfully deleted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Data rak berhasil dihapus.",
+                        "Rak dihapus", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        ex.Message
-                    );
+                    TemaPopup.Tampilkan(this,
+                        ex is SqlException && ((SqlException)ex).Number == 547
+                            ? "Rak tidak dapat dihapus karena masih digunakan oleh data buku. Hapus atau pindahkan relasi tersebut terlebih dahulu."
+                            : "Data rak gagal dihapus. Periksa koneksi database lalu coba lagi.",
+                        "Penghapusan gagal", MessageBoxIcon.Warning);
                 }
             }
         }
@@ -972,8 +967,26 @@ namespace perpustakaan
             object sender,
             EventArgs e)
         {
+            errorProvider.ContainerControl = this;
+            rakKapasitas.KeyPress -= HanyaAngka_KeyPress;
+            rakKapasitas.KeyPress += HanyaAngka_KeyPress;
+            rakKapasitas.TextChanged -= Kapasitas_TextChanged;
+            rakKapasitas.TextChanged += Kapasitas_TextChanged;
             label4.Text = Model.name;
             AturLayout();
+        }
+
+        private void HanyaAngka_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar);
+        }
+
+        private void Kapasitas_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.SetError(rakKapasitas,
+                rakKapasitas.Text.Length > 0 && !rakKapasitas.Text.All(char.IsDigit)
+                    ? "Kapasitas hanya boleh berisi angka."
+                    : string.Empty);
         }
 
         private void button1_Click(

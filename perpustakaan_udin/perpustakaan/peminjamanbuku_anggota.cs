@@ -67,35 +67,151 @@ namespace perpustakaan
 
         private void AturLayout()
         {
-            this.BackColor = Color.White;
-
-            panel4.Anchor = AnchorStyles.Top |
-                           AnchorStyles.Bottom |
-                           AnchorStyles.Left |
-                           AnchorStyles.Right;
-
-            panel5.Anchor = AnchorStyles.Bottom |
-                           AnchorStyles.Left |
-                           AnchorStyles.Right;
-
+            this.BackColor = Color.FromArgb(248, 246, 253);
             panel1.Dock = DockStyle.Fill;
-            panel1.BackColor = Color.White;
+            panel1.Padding = new Padding(0);
+            panel1.BackColor = Color.FromArgb(248, 246, 253);
+
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            panel5.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+
+            panel2.BackColor = Color.FromArgb(243, 238, 250);
+            panel3.BackColor = Color.FromArgb(243, 238, 250);
+            panel4.BackColor = Color.FromArgb(243, 238, 250);
+            panel5.BackColor = Color.FromArgb(243, 238, 250);
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel4.BorderStyle = BorderStyle.FixedSingle;
+            panel5.BorderStyle = BorderStyle.FixedSingle;
+
+            label3.ForeColor = Color.FromArgb(54, 42, 78);
+            label3.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
+            label9.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            label10.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dataGridView1.RowTemplate.Height = 34;
+            dataGridView1.ColumnHeadersHeight = 35;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView1.BackgroundColor = Color.FromArgb(250, 249, 253);
+            dataGridView1.BorderStyle = BorderStyle.FixedSingle;
+            dataGridView1.GridColor = Color.FromArgb(221, 213, 239);
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 10F);
+            dataGridView1.DefaultCellStyle.ForeColor = Color.FromArgb(48, 42, 61);
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(124, 90, 194);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.Padding = new Padding(6, 3, 6, 3);
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(247, 244, 252);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            dataGridView1.EnableHeadersVisualStyles = true;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
+
+            StyleTombol(bInsert, "INSERT");
+            StyleTombol(bEdit, "EDIT");
+            StyleTombol(bDelete, "DELETE");
+            button1.BackColor = Color.FromArgb(124, 90, 194);
+            button1.ForeColor = Color.White;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+        }
+
+        private void StyleTombol(Button tombol, string teks)
+        {
+            tombol.Text = teks;
+            tombol.BackColor = Color.White;
+            tombol.ForeColor = Color.FromArgb(82, 57, 139);
+            tombol.FlatStyle = FlatStyle.Flat;
+            tombol.FlatAppearance.BorderColor = Color.FromArgb(190, 177, 218);
+            tombol.FlatAppearance.MouseOverBackColor = Color.FromArgb(233, 223, 255);
+            tombol.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
         }
 
         private void panel1_Resize(object sender, EventArgs e)
         {
-            if (panel1 == null || label3 == null ||
-                panel5 == null || button1 == null)
+            if (panel1 == null || label3 == null || panel2 == null ||
+                panel3 == null || panel4 == null || panel5 == null || button1 == null)
             {
                 return;
             }
 
-            label3.Location = new Point(
-                (panel1.ClientSize.Width - label3.Width) / 2,
-                15
-            );
+            int width = panel1.ClientSize.Width;
+            int height = panel1.ClientSize.Height;
+            if (width <= 0 || height <= 0) return;
 
-            button1.Left = (panel5.ClientSize.Width - button1.Width) / 2;
+            int margin = Math.Max(18, Math.Min(34, width / 45));
+            int gap = Math.Max(14, Math.Min(24, width / 70));
+            int bodyWidth = Math.Max(0, width - margin * 2);
+            int leftWidth = Math.Max(203, Math.Min(460, (bodyWidth - gap) * 38 / 100));
+            leftWidth = Math.Min(leftWidth, Math.Max(203, bodyWidth - gap - 220));
+            int rightLeft = margin + leftWidth + gap;
+            int rightWidth = Math.Max(0, width - rightLeft - margin);
+
+            int headerTop = Math.Max(20, height / 45);
+            int contentTop = headerTop + 50;
+            int footerHeight = 78;
+            int footerBottom = height - Math.Max(18, height / 45);
+            int footerTop = footerBottom - footerHeight;
+            int contentHeight = Math.Max(260, footerTop - contentTop - 18);
+            int detailsHeight = Math.Min(210, Math.Max(175, contentHeight * 42 / 100));
+            int actionsTop = contentTop + detailsHeight + 14;
+            int actionsHeight = Math.Min(104, Math.Max(82, contentHeight - detailsHeight - 14));
+
+            label3.Location = new Point((width - label3.Width) / 2, headerTop);
+
+            panel2.SetBounds(margin, contentTop, leftWidth, detailsHeight);
+            panel3.SetBounds(margin, actionsTop, leftWidth, actionsHeight);
+            panel4.SetBounds(rightLeft, contentTop, rightWidth, contentHeight);
+            panel5.SetBounds(margin, footerTop, bodyWidth, footerHeight);
+
+            label1.Location = new Point(16, 17);
+            label2.Location = new Point(16, 57);
+            label4.Location = new Point(16, 97);
+            label5.Location = new Point(16, 137);
+            idbuku.SetBounds(105, 14, Math.Max(80, leftWidth - 121), 27);
+
+            int valueLeft = 105;
+            int valueWidth = Math.Max(50, leftWidth - valueLeft - 14);
+            label6.SetBounds(valueLeft, 57, valueWidth, 24);
+            label7.SetBounds(valueLeft, 97, valueWidth, 24);
+            label8.SetBounds(valueLeft, 137, valueWidth, 24);
+            label6.AutoSize = label7.AutoSize = label8.AutoSize = false;
+            label6.AutoEllipsis = label7.AutoEllipsis = label8.AutoEllipsis = true;
+
+            label10.Location = new Point(12, 9);
+            int buttonGap = 10;
+            int innerWidth = Math.Max(0, panel3.ClientSize.Width - 24);
+            int buttonWidth = Math.Max(56, (innerWidth - buttonGap * 2) / 3);
+            int buttonsWidth = buttonWidth * 3 + buttonGap * 2;
+            int buttonLeft = Math.Max(12, (panel3.ClientSize.Width - buttonsWidth) / 2);
+            int buttonHeight = 38;
+            int buttonTop = Math.Max(34, (panel3.ClientSize.Height - buttonHeight) / 2 + 7);
+            bInsert.SetBounds(buttonLeft, buttonTop, buttonWidth, buttonHeight);
+            bEdit.SetBounds(buttonLeft + buttonWidth + buttonGap, buttonTop, buttonWidth, buttonHeight);
+            bDelete.SetBounds(buttonLeft + (buttonWidth + buttonGap) * 2, buttonTop, buttonWidth, buttonHeight);
+
+            label9.Location = new Point(16, 12);
+            int gridLeft = 18;
+            int gridTop = 43;
+            int gridWidth = Math.Max(100, panel4.ClientSize.Width - gridLeft * 2);
+            int gridHeight = Math.Max(100, panel4.ClientSize.Height - gridTop - 18);
+            dataGridView1.SetBounds(gridLeft, gridTop, gridWidth, gridHeight);
+            dataGridView1.Columns[0].FillWeight = 28;
+            dataGridView1.Columns[1].FillWeight = 72;
+
+            button1.Size = new Size(Math.Min(300, panel5.ClientSize.Width - 40), 44);
+            button1.Location = new Point(
+                (panel5.ClientSize.Width - button1.Width) / 2,
+                (panel5.ClientSize.Height - button1.Height) / 2);
         }
 
         private void peminjamanbuku_anggota_Load(object sender, EventArgs e)
@@ -105,6 +221,7 @@ namespace perpustakaan
             panel1.Resize -= panel1_Resize;
             panel1.Resize += panel1_Resize;
 
+            AturLayout();
             panel1_Resize(null, EventArgs.Empty);
         }
 

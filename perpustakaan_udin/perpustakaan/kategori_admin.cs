@@ -2,12 +2,14 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace perpustakaan
 {
     public partial class kategori_admin : Form
     {
+        private readonly ErrorProvider errorProvider = new ErrorProvider();
         public SqlConnection connection = new SqlConnection(koneksi.conn);
         public SqlCommand command;
         public SqlDataAdapter adapter;
@@ -519,6 +521,8 @@ namespace perpustakaan
 
         public void insertData()
         {
+            if (!ValidasiNama()) return;
+
             if (!string.IsNullOrEmpty(nama.Text))
             {
                 try
@@ -544,45 +548,37 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(
-                        "Successfully inserted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Kategori baru berhasil ditambahkan.",
+                        "Kategori tersimpan", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    MessageBox.Show(
-                        "Error at: " + ex.Message
-                    );
+                    TemaPopup.Tampilkan(this, "Kategori gagal disimpan. Periksa kembali data dan koneksi database.",
+                        "Penyimpanan gagal", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please fill all data before insert!"
-                );
+                TemaPopup.Tampilkan(this, "Masukkan nama kategori terlebih dahulu.",
+                    "Data belum lengkap", MessageBoxIcon.Warning);
             }
         }
 
         public void editData()
         {
+            if (!ValidasiNama()) return;
+
             if (dataGridView1.CurrentRow != null &&
                 dataGridView1.CurrentRow.Selected)
             {
                 if (!string.IsNullOrEmpty(nama.Text))
                 {
                     DialogResult result =
-                        MessageBox.Show(
-                            "Are you sure to update?",
-                            "Confirmation",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question
-                        );
+                        TemaPopup.Konfirmasi(this, "Simpan perubahan pada kategori ini?",
+                            "Konfirmasi perubahan");
 
                     if (result == DialogResult.Yes)
                     {
@@ -617,39 +613,29 @@ namespace perpustakaan
                                 command.ExecuteNonQuery();
                             }
 
-                            MessageBox.Show(
-                                "Successfully updated!",
-                                "Information",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan kategori berhasil disimpan.",
+                                "Kategori diperbarui", MessageBoxIcon.Information);
 
                             clear();
                             showData();
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show(
-                                ex.Message
-                            );
+                            TemaPopup.Tampilkan(this, "Perubahan kategori gagal disimpan.",
+                                "Penyimpanan gagal", MessageBoxIcon.Warning);
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "Please fill all data!"
-                    );
+                    TemaPopup.Tampilkan(this, "Masukkan nama kategori terlebih dahulu.",
+                        "Data belum lengkap", MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih kategori yang ingin diubah terlebih dahulu.",
+                    "Kategori belum dipilih", MessageBoxIcon.Warning);
             }
         }
 
@@ -658,23 +644,14 @@ namespace perpustakaan
             if (dataGridView1.CurrentRow == null ||
                 !dataGridView1.CurrentRow.Selected)
             {
-                MessageBox.Show(
-                    "Please select the data!",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                TemaPopup.Tampilkan(this, "Pilih kategori yang ingin dihapus terlebih dahulu.",
+                    "Kategori belum dipilih", MessageBoxIcon.Warning);
 
                 return;
             }
 
-            DialogResult result =
-                MessageBox.Show(
-                    "Are you sure to delete?",
-                    "Confirmation",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+            DialogResult result = TemaPopup.Konfirmasi(this,
+                "Yakin ingin menghapus kategori yang dipilih?", "Konfirmasi hapus kategori");
 
             if (result == DialogResult.Yes)
             {
@@ -699,25 +676,28 @@ namespace perpustakaan
                         );
 
                         connection.Open();
-
-                        command.ExecuteNonQuery();
+                        int affected = command.ExecuteNonQuery();
+                        if (affected == 0)
+                        {
+                            TemaPopup.Tampilkan(this, "Data kategori tidak ditemukan atau sudah dihapus.",
+                                "Penghapusan tidak dilakukan", MessageBoxIcon.Warning);
+                            return;
+                        }
                     }
 
-                    MessageBox.Show(
-                        "Successfully deleted!",
-                        "Information",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    TemaPopup.Tampilkan(this, "Kategori berhasil dihapus.",
+                        "Kategori dihapus", MessageBoxIcon.Information);
 
                     clear();
                     showData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
-                        ex.Message
-                    );
+                    TemaPopup.Tampilkan(this,
+                        ex is SqlException && ((SqlException)ex).Number == 547
+                            ? "Kategori tidak dapat dihapus karena masih digunakan oleh data buku. Hapus atau pindahkan relasi tersebut terlebih dahulu."
+                            : "Kategori gagal dihapus. Periksa koneksi database lalu coba lagi.",
+                        "Penghapusan gagal", MessageBoxIcon.Warning);
                 }
             }
         }
@@ -833,8 +813,50 @@ namespace perpustakaan
             object sender,
             EventArgs e)
         {
+            errorProvider.ContainerControl = this;
+            nama.KeyPress -= HanyaHuruf_KeyPress;
+            nama.KeyPress += HanyaHuruf_KeyPress;
+            nama.TextChanged -= Nama_TextChanged;
+            nama.TextChanged += Nama_TextChanged;
             label4.Text = Model.name;
             AturLayout();
+        }
+
+        private void HanyaHuruf_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsControl(e.KeyChar) &&
+                        !char.IsLetter(e.KeyChar) &&
+                        !char.IsWhiteSpace(e.KeyChar);
+        }
+
+        private void Nama_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.SetError(nama,
+                nama.Text.Any(c => !char.IsLetter(c) && !char.IsWhiteSpace(c))
+                    ? "Nama kategori hanya boleh berisi huruf dan spasi."
+                    : string.Empty);
+        }
+
+        // ASVS 2.2.1: nama kategori menerima huruf dan spasi saja.
+        private bool ValidasiNama()
+        {
+            if (string.IsNullOrWhiteSpace(nama.Text))
+            {
+                TemaPopup.Tampilkan(this, "Nama kategori wajib diisi.", "Data belum lengkap", MessageBoxIcon.Warning);
+                nama.Focus();
+                return false;
+            }
+
+            if (nama.Text.Any(c => !char.IsLetter(c) && !char.IsWhiteSpace(c)))
+            {
+                errorProvider.SetError(nama, "Gunakan huruf dan spasi saja.");
+                TemaPopup.Tampilkan(this, "Nama kategori hanya boleh berisi huruf dan spasi.",
+                    "Nama kategori tidak valid", MessageBoxIcon.Warning);
+                nama.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void button1_Click(
