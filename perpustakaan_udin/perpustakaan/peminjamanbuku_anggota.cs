@@ -44,7 +44,7 @@ namespace perpustakaan
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error at:" + ex);
+                    TemaPopup.Tampilkan(this, "Error at:" + ex, "Kesalahan", MessageBoxIcon.Error);
                 }
             }
         }
@@ -67,26 +67,27 @@ namespace perpustakaan
 
         private void AturLayout()
         {
-            this.BackColor = Color.FromArgb(248, 246, 253);
+            this.BackColor = TemaWarna.Latar;
             panel1.Dock = DockStyle.Fill;
             panel1.Padding = new Padding(0);
-            panel1.BackColor = Color.FromArgb(248, 246, 253);
+            panel1.BackColor = TemaWarna.Latar;
 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             panel5.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
 
-            panel2.BackColor = Color.FromArgb(243, 238, 250);
-            panel3.BackColor = Color.FromArgb(243, 238, 250);
-            panel4.BackColor = Color.FromArgb(243, 238, 250);
-            panel5.BackColor = Color.FromArgb(243, 238, 250);
+            panel2.BackColor = TemaWarna.Lavender;
+            panel3.BackColor = TemaWarna.Lavender;
+            panel4.BackColor = TemaWarna.Lavender;
+            panel5.BackColor = TemaWarna.Lavender;
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel3.BorderStyle = BorderStyle.FixedSingle;
             panel4.BorderStyle = BorderStyle.FixedSingle;
             panel5.BorderStyle = BorderStyle.FixedSingle;
 
-            label3.ForeColor = Color.FromArgb(54, 42, 78);
+            label3.ForeColor = TemaWarna.UnguTua;
+            label1.ForeColor = Color.Black;
             label3.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
             label9.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             label10.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
@@ -99,18 +100,20 @@ namespace perpustakaan
             dataGridView1.RowTemplate.Height = 34;
             dataGridView1.ColumnHeadersHeight = 35;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView1.BackgroundColor = Color.FromArgb(250, 249, 253);
+            dataGridView1.BackgroundColor = TemaWarna.Latar;
             dataGridView1.BorderStyle = BorderStyle.FixedSingle;
-            dataGridView1.GridColor = Color.FromArgb(221, 213, 239);
+            dataGridView1.GridColor = TemaWarna.Mawar;
             dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 10F);
-            dataGridView1.DefaultCellStyle.ForeColor = Color.FromArgb(48, 42, 61);
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(124, 90, 194);
+            dataGridView1.DefaultCellStyle.ForeColor = TemaWarna.UnguTua;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = TemaWarna.MawarTua;
             dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
             dataGridView1.DefaultCellStyle.Padding = new Padding(6, 3, 6, 3);
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(247, 244, 252);
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = TemaWarna.Lavender;
             dataGridView1.ColumnHeadersDefaultCellStyle.Font =
                 new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
-            dataGridView1.EnableHeadersVisualStyles = true;
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = TemaWarna.Plum;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
@@ -118,7 +121,7 @@ namespace perpustakaan
             StyleTombol(bInsert, "INSERT");
             StyleTombol(bEdit, "EDIT");
             StyleTombol(bDelete, "DELETE");
-            button1.BackColor = Color.FromArgb(124, 90, 194);
+            button1.BackColor = TemaWarna.Plum;
             button1.ForeColor = Color.White;
             button1.FlatStyle = FlatStyle.Flat;
             button1.FlatAppearance.BorderSize = 0;
@@ -128,11 +131,11 @@ namespace perpustakaan
         private void StyleTombol(Button tombol, string teks)
         {
             tombol.Text = teks;
-            tombol.BackColor = Color.White;
-            tombol.ForeColor = Color.FromArgb(82, 57, 139);
+            tombol.BackColor = TemaWarna.Latar;
+            tombol.ForeColor = TemaWarna.UnguTua;
             tombol.FlatStyle = FlatStyle.Flat;
-            tombol.FlatAppearance.BorderColor = Color.FromArgb(190, 177, 218);
-            tombol.FlatAppearance.MouseOverBackColor = Color.FromArgb(233, 223, 255);
+            tombol.FlatAppearance.BorderColor = TemaWarna.Mawar;
+            tombol.FlatAppearance.MouseOverBackColor = TemaWarna.Lavender;
             tombol.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
         }
 
@@ -268,7 +271,7 @@ namespace perpustakaan
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error: " + ex.Message);
+                        TemaPopup.Tampilkan(this, "Error: " + ex.Message, "Kesalahan", MessageBoxIcon.Error);
                     }
                 }
             }
@@ -278,7 +281,7 @@ namespace perpustakaan
         {
             if (idbuku.SelectedItem == null)
             {
-                MessageBox.Show("Silakan pilih buku terlebih dahulu!");
+                TemaPopup.Tampilkan(this, "Silakan pilih buku terlebih dahulu!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
@@ -292,7 +295,7 @@ namespace perpustakaan
             }
             else
             {
-                MessageBox.Show("Buku sudah ada di keranjang!");
+                TemaPopup.Tampilkan(this, "Buku sudah ada di keranjang!", "Informasi", MessageBoxIcon.Warning);
             }
         }
 
@@ -308,13 +311,13 @@ namespace perpustakaan
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Pilih buku yang mau diedit!");
+                TemaPopup.Tampilkan(this, "Pilih buku yang mau diedit!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
             if (idbuku.SelectedItem == null)
             {
-                MessageBox.Show("Silakan pilih buku baru untuk mengganti!");
+                TemaPopup.Tampilkan(this, "Silakan pilih buku baru untuk mengganti!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
@@ -327,7 +330,7 @@ namespace perpustakaan
             // Jika buku baru sudah ada di keranjang → tolak
             if (keranjangBuku.Contains(bukuBaru) && bukuBaru != bukuLama)
             {
-                MessageBox.Show("Buku sudah ada di keranjang!");
+                TemaPopup.Tampilkan(this, "Buku sudah ada di keranjang!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
@@ -337,7 +340,7 @@ namespace perpustakaan
             // Update tampilan DataGridView
             dataGridView1.Rows[selectedIndex].Cells[0].Value = bukuBaru;
 
-            MessageBox.Show("Buku berhasil diubah!");
+            TemaPopup.Tampilkan(this, "Buku berhasil diubah!", "Informasi", MessageBoxIcon.Information);
 
         }
 
@@ -345,7 +348,7 @@ namespace perpustakaan
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Pilih data yang mau dihapus!");
+                TemaPopup.Tampilkan(this, "Pilih data yang mau dihapus!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
@@ -367,7 +370,7 @@ namespace perpustakaan
         {
             if (keranjangBuku.Count == 0)
             {
-                MessageBox.Show("Keranjang masih kosong!");
+                TemaPopup.Tampilkan(this, "Keranjang masih kosong!", "Informasi", MessageBoxIcon.Warning);
                 return;
             }
 
@@ -411,7 +414,7 @@ namespace perpustakaan
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Peminjaman berhasil disimpan!");
+                    TemaPopup.Tampilkan(this, "Peminjaman berhasil disimpan!", "Informasi", MessageBoxIcon.Information);
 
                     keranjangBuku.Clear();
                     dataGridView1.Rows.Clear();
@@ -429,7 +432,7 @@ namespace perpustakaan
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    TemaPopup.Tampilkan(this, "Error: " + ex.Message, "Kesalahan", MessageBoxIcon.Error);
                 }
             }
 

@@ -15,11 +15,84 @@ namespace perpustakaan
             this.Resize += Admin_Resize;
 
             AturLayout();
+            TerapkanTema();
         }
 
         private void Admin_Resize(object sender, EventArgs e)
         {
             AturLayout();
+            TerapkanTema();
+        }
+
+        private void TerapkanTema()
+        {
+            TemaWarna.Terapkan(this);
+            pHeader.BackColor = TemaWarna.Plum;
+            lLine.BackColor = TemaWarna.MawarTua;
+            label2.BackColor = TemaWarna.MawarTua;
+            label2.ForeColor = Color.White;
+            label4.BackColor = TemaWarna.MawarTua;
+            label4.ForeColor = Color.White;
+            panel1.BackColor = TemaWarna.Lavender;
+            label2.Text = "Selamat Datang Admin,";
+            label4.Text = Model.name;
+            label2.AutoSize = true;
+            label4.AutoSize = true;
+            label4.AutoEllipsis = false;
+            label4.MaximumSize = Size.Empty;
+            label2.Location = new Point(this.WindowState == FormWindowState.Maximized ? 230 : 140,
+                this.WindowState == FormWindowState.Maximized ? 99 : 76);
+            label4.Location = new Point(label2.Right + 6, label2.Top);
+            AturGayaSidebar();
+            TerapkanKeTombolKonten(this);
+        }
+
+        private void TerapkanKeTombolKonten(Control induk)
+        {
+            foreach (Control kontrol in induk.Controls)
+            {
+                if (kontrol is Button tombol && tombol.Parent != tableLayoutPanel1)
+                {
+                    tombol.BackColor = TemaWarna.Latar;
+                    tombol.ForeColor = TemaWarna.UnguTua;
+                    tombol.FlatStyle = FlatStyle.Flat;
+                    tombol.UseVisualStyleBackColor = false;
+                    tombol.FlatAppearance.BorderSize = 1;
+                    tombol.FlatAppearance.BorderColor = TemaWarna.Mawar;
+                    tombol.FlatAppearance.MouseOverBackColor = TemaWarna.MawarTua;
+                    tombol.FlatAppearance.MouseDownBackColor = TemaWarna.UnguTua;
+                }
+
+                if (kontrol.HasChildren) TerapkanKeTombolKonten(kontrol);
+            }
+        }
+
+        private void AturGayaSidebar()
+        {
+            Button[] tombolSidebar =
+            {
+                button1, button2, button5, button6,
+                button3, button4, button7, button8
+            };
+
+            foreach (Button tombol in tombolSidebar)
+            {
+                tombol.BackColor = TemaWarna.Lavender;
+                tombol.ForeColor = TemaWarna.UnguTua;
+                tombol.FlatStyle = FlatStyle.Flat;
+                tombol.UseVisualStyleBackColor = false;
+                tombol.FlatAppearance.BorderSize = 1;
+                tombol.FlatAppearance.BorderColor = TemaWarna.Mawar;
+                tombol.FlatAppearance.MouseOverBackColor = TemaWarna.MawarTua;
+                tombol.FlatAppearance.MouseDownBackColor = TemaWarna.MawarTua;
+            }
+
+            Button tombolAktif = button1;
+            tombolAktif.BackColor = TemaWarna.Plum;
+            tombolAktif.ForeColor = Color.White;
+            tombolAktif.FlatAppearance.BorderSize = 0;
+            tombolAktif.FlatAppearance.MouseOverBackColor = TemaWarna.UnguTua;
+            tombolAktif.FlatAppearance.MouseDownBackColor = TemaWarna.UnguTua;
         }
 
         private void AturLayout()
@@ -110,6 +183,7 @@ namespace perpustakaan
         {
             label4.Text = Model.name;
             AturLayout();
+            TerapkanTema();
         }
 
         private void button1_Click_1(object sender, EventArgs e)

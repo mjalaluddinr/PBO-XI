@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace perpustakaan
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error at:" + ex);
+                    TemaPopup.Tampilkan(this, "Error at:" + ex, "Kesalahan", MessageBoxIcon.Error);
                 }
             }
         }
@@ -93,7 +94,7 @@ namespace perpustakaan
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error at:" + ex);
+                    TemaPopup.Tampilkan(this, "Error at:" + ex, "Kesalahan", MessageBoxIcon.Error);
                 }
             }
             else
@@ -118,10 +119,10 @@ namespace perpustakaan
 
         private void AturLayout()
         {
-            this.BackColor = Color.White;
+            this.BackColor = TemaWarna.Latar;
             panel1.Dock = DockStyle.Fill;
             panel1.Padding = new Padding(0);
-            panel1.BackColor = Color.White;
+            panel1.BackColor = TemaWarna.Latar;
 
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
@@ -131,8 +132,10 @@ namespace perpustakaan
 
             cari.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cari.Height = 23;
-            cari.Font = new Font("Microsoft Sans Serif", 9F);
+            cari.Font = new Font("Segoe UI", 9F);
             cari.BorderStyle = BorderStyle.FixedSingle;
+            cari.BackColor = TemaWarna.Latar;
+            cari.ForeColor = TemaWarna.UnguTua;
 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom |
                                    AnchorStyles.Left | AnchorStyles.Right;
@@ -141,12 +144,22 @@ namespace perpustakaan
             dataGridView1.RowTemplate.Height = 30;
             dataGridView1.ColumnHeadersHeight = 35;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView1.DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 9F);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold);
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             dataGridView1.ScrollBars = ScrollBars.Both;
-            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.BackgroundColor = TemaWarna.Latar;
             dataGridView1.BorderStyle = BorderStyle.FixedSingle;
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.GridColor = TemaWarna.Mawar;
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = TemaWarna.Plum;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.BackColor = TemaWarna.Latar;
+            dataGridView1.DefaultCellStyle.ForeColor = TemaWarna.UnguTua;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = TemaWarna.MawarTua;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = TemaWarna.Lavender;
+            dataGridView1.AlternatingRowsDefaultCellStyle.ForeColor = TemaWarna.UnguTua;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;

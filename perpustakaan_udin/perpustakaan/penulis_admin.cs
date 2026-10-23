@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -28,11 +28,26 @@ namespace perpustakaan
             this.Resize += penulis_admin_Resize;
 
             AturLayout();
+            TerapkanTema();
+        }
+
+
+        private void TerapkanTema()
+        {
+            TemaWarna.Terapkan(this);
+            pHeader.BackColor = TemaWarna.Plum;
+            lLine.BackColor = TemaWarna.MawarTua;
+            label2.BackColor = TemaWarna.MawarTua;
+            label2.ForeColor = System.Drawing.Color.White;
+            label4.BackColor = TemaWarna.MawarTua;
+            label4.ForeColor = System.Drawing.Color.White;
+            panel1.BackColor = TemaWarna.Lavender;
         }
 
         private void penulis_admin_Resize(object sender, EventArgs e)
         {
             AturLayout();
+            TerapkanTema();
         }
 
         private void AturLayout()
@@ -525,6 +540,7 @@ namespace perpustakaan
         {
             label4.Text = Model.name;
             AturLayout();
+            TerapkanTema();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -27,11 +27,11 @@ namespace perpustakaan
 
         private void AturLayout()
         {
-            this.BackColor = Color.White;
+            this.BackColor = TemaWarna.Latar;
 
             panel1.Dock = DockStyle.Fill;
             panel1.Padding = new Padding(0);
-            panel1.BackColor = Color.White;
+            panel1.BackColor = TemaWarna.Latar;
 
             label3.Anchor = AnchorStyles.Top;
             label3.AutoSize = true;
@@ -51,8 +51,10 @@ namespace perpustakaan
                 Math.Max(80, panel1.ClientSize.Width - cari.Left - 25)
             );
 
-            cari.Font = new Font("Microsoft Sans Serif", 9F);
+            cari.Font = new Font("Segoe UI", 9F);
             cari.BorderStyle = BorderStyle.FixedSingle;
+            cari.BackColor = TemaWarna.Latar;
+            cari.ForeColor = TemaWarna.UnguTua;
 
             dataGridView1.Anchor = AnchorStyles.Top |
                                    AnchorStyles.Bottom |
@@ -84,19 +86,29 @@ namespace perpustakaan
                 DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
             dataGridView1.DefaultCellStyle.Font =
-                new Font("Microsoft Sans Serif", 9F);
+                new Font("Segoe UI", 9F);
 
             dataGridView1.ColumnHeadersDefaultCellStyle.Font =
                 new Font(
-                    "Microsoft Sans Serif",
+                    "Segoe UI",
                     9F,
                     FontStyle.Bold
                 );
 
             dataGridView1.ScrollBars = ScrollBars.Both;
-            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.BackgroundColor = TemaWarna.Latar;
             dataGridView1.BorderStyle = BorderStyle.FixedSingle;
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.GridColor = TemaWarna.Mawar;
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = TemaWarna.Plum;
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.BackColor = TemaWarna.Latar;
+            dataGridView1.DefaultCellStyle.ForeColor = TemaWarna.UnguTua;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = TemaWarna.MawarTua;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = TemaWarna.Lavender;
+            dataGridView1.AlternatingRowsDefaultCellStyle.ForeColor = TemaWarna.UnguTua;
 
             dataGridView1.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
@@ -179,10 +191,10 @@ namespace perpustakaan
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                TemaPopup.Tampilkan(
+                    this,
                     "Gagal menampilkan data buku: " + ex.Message,
                     "Kesalahan",
-                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
             }
@@ -244,10 +256,10 @@ namespace perpustakaan
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                TemaPopup.Tampilkan(
+                    this,
                     "Gagal mencari buku: " + ex.Message,
                     "Kesalahan",
-                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
             }

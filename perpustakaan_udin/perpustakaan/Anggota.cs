@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,9 +7,10 @@ namespace perpustakaan
     public partial class Anggota : Form
     {
         private Form halamanAktif;
+        private Button tombolAktifSidebar;
 
-        private Color warnaNormal = Color.FromArgb(243, 238, 250);
-        private Color warnaAktif = Color.FromArgb(124, 90, 194);
+        private Color warnaNormal = TemaWarna.Lavender;
+        private Color warnaAktif = TemaWarna.Plum;
 
         public Anggota()
         {
@@ -25,11 +26,13 @@ namespace perpustakaan
             button5.FlatStyle = FlatStyle.Flat;
             button5.FlatAppearance.BorderSize = 0;
             button5.FlatAppearance.MouseDownBackColor = warnaNormal;
-            button5.FlatAppearance.MouseOverBackColor = warnaNormal;
+            button5.FlatAppearance.MouseOverBackColor = TemaWarna.Mawar;
+            button5.FlatAppearance.BorderColor = TemaWarna.Mawar;
             button5.BackColor = warnaNormal;
-            button5.ForeColor = SystemColors.ControlText;
+            button5.ForeColor = TemaWarna.UnguTua;
 
             AturLayout();
+            TerapkanTema();
             SetButtonAktif(button1);
         }
 
@@ -43,22 +46,23 @@ namespace perpustakaan
                 button4
             };
 
+            tombolAktifSidebar = tombolAktif;
+
             foreach (Button tombol in tombolSidebar)
             {
                 tombol.BackColor = warnaNormal;
-                tombol.ForeColor = SystemColors.ControlText;
+                tombol.ForeColor = TemaWarna.UnguTua;
                 tombol.FlatStyle = FlatStyle.Flat;
-                tombol.FlatAppearance.BorderSize = 0;
+                tombol.FlatAppearance.BorderSize = 1;
+                tombol.FlatAppearance.BorderColor = TemaWarna.Mawar;
                 tombol.FlatAppearance.MouseDownBackColor = warnaNormal;
-                tombol.FlatAppearance.MouseOverBackColor = warnaNormal;
+                tombol.FlatAppearance.MouseOverBackColor = TemaWarna.Mawar;
             }
 
             tombolAktif.BackColor = warnaAktif;
             tombolAktif.ForeColor = Color.White;
-            tombolAktif.FlatStyle = FlatStyle.Flat;
-            tombolAktif.FlatAppearance.BorderSize = 0;
             tombolAktif.FlatAppearance.MouseDownBackColor = warnaAktif;
-            tombolAktif.FlatAppearance.MouseOverBackColor = warnaAktif;
+            tombolAktif.FlatAppearance.MouseOverBackColor = TemaWarna.MawarTua;
         }
 
         private void TampilkanHalaman(Form halaman)
@@ -67,23 +71,49 @@ namespace perpustakaan
             {
                 panel2.Controls.Remove(halamanAktif);
                 halamanAktif.Dispose();
+                halamanAktif = null;
             }
+
+            panel2.Controls.Clear();
 
             halamanAktif = halaman;
             halamanAktif.TopLevel = false;
             halamanAktif.FormBorderStyle = FormBorderStyle.None;
             halamanAktif.Dock = DockStyle.Fill;
 
-            panel2.Controls.Clear();
+            TemaWarna.Terapkan(halamanAktif);
             panel2.Controls.Add(halamanAktif);
-
             halamanAktif.Show();
             halamanAktif.BringToFront();
         }
-
         private void Anggota_Resize(object sender, EventArgs e)
         {
             AturLayout();
+            TerapkanTema();
+            SetButtonAktif(tombolAktifSidebar ?? button1);
+        }
+
+        private void TerapkanTema()
+        {
+            TemaWarna.Terapkan(this);
+            pHeader.BackColor = TemaWarna.Plum;
+            lLine.BackColor = TemaWarna.MawarTua;
+            label2.BackColor = TemaWarna.MawarTua;
+            label2.ForeColor = Color.White;
+            label4.BackColor = TemaWarna.MawarTua;
+            label4.ForeColor = Color.White;
+            label2.Text = "Selamat Datang Pengguna,";
+            label4.Text = Model.name;
+            label2.AutoSize = true;
+            label4.AutoSize = true;
+            label4.AutoEllipsis = false;
+            label4.MaximumSize = Size.Empty;
+            label2.Location = new Point(this.WindowState == FormWindowState.Maximized ? 230 : 140,
+                this.WindowState == FormWindowState.Maximized ? 99 : 75);
+            label4.Location = new Point(label2.Right + 6, label2.Top);
+            panel1.BackColor = TemaWarna.Lavender;
+            button5.BackColor = TemaWarna.Lavender;
+            button5.ForeColor = TemaWarna.UnguTua;
         }
 
         private void AturLayout()
@@ -173,8 +203,10 @@ namespace perpustakaan
 
         private void Anggota_Load(object sender, EventArgs e)
         {
+            label2.Text = "Selamat Datang Pengguna,";
             label4.Text = Model.name;
             AturLayout();
+            TerapkanTema();
             SetButtonAktif(button1);
         }
 
@@ -187,24 +219,28 @@ namespace perpustakaan
                 halamanAktif = null;
             }
 
+
             panel2.Controls.Clear();
             SetButtonAktif(button1);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (halamanAktif is caribuku_anggota) return;
             SetButtonAktif(button2);
             TampilkanHalaman(new caribuku_anggota());
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (halamanAktif is peminjamanbuku_anggota) return;
             SetButtonAktif(button3);
             TampilkanHalaman(new peminjamanbuku_anggota());
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (halamanAktif is riwayat_anggota) return;
             SetButtonAktif(button4);
             TampilkanHalaman(new riwayat_anggota());
         }

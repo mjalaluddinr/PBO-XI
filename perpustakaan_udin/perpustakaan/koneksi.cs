@@ -8,6 +8,89 @@ using System.Windows.Forms;
 
 namespace perpustakaan
 {
+    internal static class TemaWarna
+    {
+        public static readonly Color UnguTua = Color.FromArgb(59, 31, 63);
+        public static readonly Color Plum = Color.FromArgb(101, 43, 82);
+        public static readonly Color MawarTua = Color.FromArgb(141, 74, 115);
+        public static readonly Color Mawar = Color.FromArgb(196, 122, 158);
+        public static readonly Color Lavender = Color.FromArgb(233, 220, 237);
+        public static readonly Color Latar = Color.FromArgb(248, 243, 248);
+
+        public static void Terapkan(Control induk)
+        {
+            if (induk == null) return;
+
+            if (induk is Form) induk.BackColor = Latar;
+            induk.ForeColor = UnguTua;
+
+            foreach (Control kontrol in induk.Controls)
+            {
+                if (kontrol is DataGridView grid)
+                {
+                    grid.BackgroundColor = Latar;
+                    grid.BorderStyle = BorderStyle.FixedSingle;
+                    grid.GridColor = Mawar;
+                    grid.EnableHeadersVisualStyles = false;
+                    grid.ColumnHeadersDefaultCellStyle.BackColor = Plum;
+                    grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                    grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+                    grid.DefaultCellStyle.BackColor = Latar;
+                    grid.DefaultCellStyle.ForeColor = UnguTua;
+                    grid.DefaultCellStyle.SelectionBackColor = MawarTua;
+                    grid.DefaultCellStyle.SelectionForeColor = Color.White;
+                    grid.AlternatingRowsDefaultCellStyle.BackColor = Lavender;
+                    grid.AlternatingRowsDefaultCellStyle.ForeColor = UnguTua;
+                    grid.RowHeadersDefaultCellStyle.BackColor = Plum;
+                    grid.RowHeadersDefaultCellStyle.ForeColor = Color.White;
+                }
+                else if (kontrol is Button tombol)
+                {
+                    bool tombolSidebar = tombol.Parent is TableLayoutPanel &&
+                        tombol.Parent.Parent is Panel;
+                    tombol.BackColor = tombolSidebar ? Lavender : Latar;
+                    tombol.ForeColor = UnguTua;
+                    tombol.FlatStyle = FlatStyle.Flat;
+                    tombol.UseVisualStyleBackColor = false;
+                    tombol.FlatAppearance.BorderColor = Mawar;
+                    tombol.FlatAppearance.MouseOverBackColor = MawarTua;
+                    tombol.FlatAppearance.MouseDownBackColor = UnguTua;
+                    tombol.FlatAppearance.BorderSize = 1;
+                    tombol.Font = new Font("Segoe UI", tombol.Font.Size, FontStyle.Bold);
+                }
+                else if (kontrol is TextBoxBase || kontrol is ComboBox || kontrol is DateTimePicker || kontrol is NumericUpDown)
+                {
+                    kontrol.BackColor = Latar;
+                    kontrol.ForeColor = UnguTua;
+                    kontrol.Font = new Font("Segoe UI", kontrol.Font.Size, kontrol.Font.Style);
+                }
+                else if (kontrol is Label)
+                {
+                    kontrol.ForeColor = UnguTua;
+                    kontrol.Font = new Font("Segoe UI", kontrol.Font.Size, kontrol.Font.Style);
+                    if (kontrol.Name == "label1")
+                    {
+                        kontrol.ForeColor = Color.White;
+                    }
+                }
+                else if (kontrol is Panel || kontrol is GroupBox || kontrol is TableLayoutPanel || kontrol is FlowLayoutPanel)
+                {
+                    kontrol.BackColor = Lavender;
+                    kontrol.ForeColor = UnguTua;
+                }
+                else if (kontrol is Label label && label.BackColor != Color.Transparent)
+                {
+                    label.BackColor = kontrol.Name == "lLine" || kontrol.Name == "label4"
+                        ? MawarTua
+                        : Plum;
+                    label.ForeColor = Color.White;
+                }
+
+                if (kontrol.HasChildren) Terapkan(kontrol);
+            }
+        }
+    }
+
     internal class koneksi
     {
         public static string conn = "Data Source = JALALUDDIN\\SQLEXPRESS; Initial Catalog = perpustakaan; Integrated Security = True";
@@ -15,10 +98,10 @@ namespace perpustakaan
 
     internal static class TemaPopup
     {
-        private static readonly Color Ungu = Color.FromArgb(124, 90, 194);
-        private static readonly Color UnguGelap = Color.FromArgb(82, 57, 139);
-        private static readonly Color Latar = Color.FromArgb(248, 246, 253);
-        private static readonly Color Teks = Color.FromArgb(48, 42, 61);
+        private static readonly Color Ungu = TemaWarna.Plum;
+        private static readonly Color UnguGelap = TemaWarna.UnguTua;
+        private static readonly Color Latar = TemaWarna.Latar;
+        private static readonly Color Teks = TemaWarna.UnguTua;
 
         public static void Tampilkan(
             IWin32Window pemilik,
@@ -49,11 +132,7 @@ namespace perpustakaan
             MessageBoxIcon jenis,
             bool konfirmasi)
         {
-            Color aksen = jenis == MessageBoxIcon.Information
-                ? Ungu
-                : jenis == MessageBoxIcon.Warning ? Color.FromArgb(190, 125, 35)
-                : jenis == MessageBoxIcon.Error ? Color.FromArgb(183, 62, 82)
-                : Ungu;
+            Color aksen = jenis == MessageBoxIcon.Error ? TemaWarna.MawarTua : TemaWarna.Plum;
 
             string simbol = jenis == MessageBoxIcon.Information ? "✓"
                 : jenis == MessageBoxIcon.Warning ? "!"
@@ -62,7 +141,7 @@ namespace perpustakaan
             Form popup = new Form
             {
                 Text = judul,
-                ClientSize = new Size(460, 224),
+                ClientSize = new Size(480, 236),
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
@@ -71,20 +150,21 @@ namespace perpustakaan
                 ControlBox = false,
                 BackColor = Latar,
                 Font = new Font("Segoe UI", 9.5F),
+                Padding = new Padding(1),
                 KeyPreview = true
             };
 
             Panel kepala = new Panel
             {
-                BackColor = Ungu,
+                BackColor = TemaWarna.Plum,
                 Location = new Point(0, 0),
-                Size = new Size(460, 66)
+                Size = new Size(480, 70)
             };
 
             Label badge = new Label
             {
                 Text = simbol,
-                BackColor = Color.White,
+                BackColor = TemaWarna.Lavender,
                 ForeColor = aksen,
                 Font = new Font("Segoe UI", 16F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -106,9 +186,10 @@ namespace perpustakaan
                 Text = pesan,
                 ForeColor = Teks,
                 Font = new Font("Segoe UI", 10F),
-                Location = new Point(25, 83),
-                Size = new Size(410, 65),
-                AutoEllipsis = true
+                Location = new Point(28, 88),
+                Size = new Size(424, 76),
+                AutoEllipsis = false,
+                TextAlign = ContentAlignment.MiddleLeft
             };
 
             Button utama = new Button
@@ -121,11 +202,13 @@ namespace perpustakaan
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                Location = new Point(konfirmasi ? 330 : 350, 170),
-                Size = new Size(85, 34),
+                Location = new Point(konfirmasi ? 354 : 366, 184),
+                Size = new Size(88, 36),
                 UseVisualStyleBackColor = false
             };
             utama.FlatAppearance.BorderSize = 0;
+            utama.FlatAppearance.MouseOverBackColor = TemaWarna.MawarTua;
+            utama.FlatAppearance.MouseDownBackColor = TemaWarna.UnguTua;
 
             popup.Controls.Add(kepala);
             kepala.Controls.Add(badge);
@@ -139,14 +222,16 @@ namespace perpustakaan
                 {
                     Text = "Batal",
                     DialogResult = DialogResult.No,
-                    BackColor = Color.White,
+                    BackColor = TemaWarna.Lavender,
                     ForeColor = UnguGelap,
                     FlatStyle = FlatStyle.Flat,
                     Font = new Font("Segoe UI", 9F),
-                    Location = new Point(235, 170),
-                    Size = new Size(85, 34)
+                    Location = new Point(254, 184),
+                    Size = new Size(88, 36)
                 };
-                batal.FlatAppearance.BorderColor = Color.FromArgb(210, 201, 230);
+                batal.FlatAppearance.BorderColor = TemaWarna.Mawar;
+                batal.FlatAppearance.MouseOverBackColor = TemaWarna.Mawar;
+                batal.FlatAppearance.MouseDownBackColor = TemaWarna.MawarTua;
                 popup.Controls.Add(batal);
                 popup.CancelButton = batal;
             }
